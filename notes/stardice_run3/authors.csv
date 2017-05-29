@@ -29,4 +29,15 @@
 #
 # ======================================================================
 Lastname,Firstname,Authorname,AuthorType,Affiliation,Contribution,Email
-"Lastname", "Firstname","Marc Betoule",Contact,"LPNHE","Initiated project, led development work.","marc.betoule@lpnhe.in2p3.fr"
+"Hazenberg","Fran\cois","F. Hazenberg",Contact,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","fhazenbe@lpnhe.in2p3.fr"
+"Betoule","Marc","M. Betoule",Contact,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","marc.betoule@lpnhe.in2p3.fr"
+"Bongard","Sébastien","S. Bongard",Contributor,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","bongard@lpnhe.in2p3.fr"
+"Dagoret-Campagne","Sylvie","S. Dagoret-Campagne",Contributor,"LAL, Univ Paris-Sud \& IN2P3/CNRS, Orsay, France\label{LAL}","","dagoret@lal.in2p3.fr"
+"Feinstein","Fabrice","F. Feinstein",Contributor,"CPPM, Universit\'{e} Montpellier \& CNRS, 163 av. de Luminy 13288 Marseille Cedex 09, France","","feinstein@cppm.in2p3.fr"
+"Le Guillou","Laurent","L. Le Guillou",Contributor,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","llg@lpnhe.in2p3.fr"
+"Le Van Suu","Auguste","A. Le Van Suu",Contributor,"Observatoire de Haute-Provence, Universit\'{e} d'Aix-Marseille \& CNRS, 04870 Saint Michel l'Observatoire, France","","Auguste.Levansuu@osupytheas.fr"
+"Nuss","\'{E}ric","E. Nuss",Contributor,"LUPM, Universit\'{e} Montpellier \& CNRS, F-34095 Montpellier, France","","eric.nuss@umontpellier.fr"
+"Plez","Bertrand","B. Plez",Contributor,"LUPM, Universit\'{e} Montpellier \& CNRS, F-34095 Montpellier, France","","bertrand.plez@umontpellier.fr"
+"Regnault","Nicolas","N. Regnault",Contributor,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","nrl@lpnhe.in2p3.fr"
+"Schahmaneche","Kyan","K. Schahmaneche",Contributor,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","kyan@lpnhe.in2p3.fr"
+"Cohen Tanugi","Johann","J. Cohen Tanugi",Contributor,"LUPM, Universit\'{e} Montpellier \& CNRS, F-34095 Montpellier, France","","tanugi@umontpellier.fr"

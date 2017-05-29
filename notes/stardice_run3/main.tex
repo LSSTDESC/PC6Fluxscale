@@ -14,7 +14,7 @@
 
 % Custom commands from LSST DESC, see texmf/styles/lsstdesc_macros.sty
 \usepackage{lsstdesc_macros}
-
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \graphicspath{{./}{./figures/}}
 \bibliographystyle{apj}
@@ -33,12 +33,12 @@
 \maketitlepre
 
 \begin{abstract}
-  We describe a model of the expected StarDICE data. We use the model
-  to produce simulated datasets. We then describe the current status
-  of the reduction and analysis chain and process simulated data
-  through this chain. This draws a forecast of the performance of the
-  next campaign as a function of the number of nights and variability
-  of atmospheric parameters.
+  We describe a model of the expected StarDICE data that is used to
+  produce simulated datasets. We then describe the current status of
+  the reduction and analysis chain and process simulated data through
+  this chain. This draws a forecast of the performance of the next
+  campaign as a function of the number of nights and variability of
+  atmospheric parameters.
 \end{abstract}
 
 % Keywords are ignored in the LSST DESC Note style:
@@ -70,24 +70,25 @@ For an isolated point source:
 
 \subsubsection{Detector quantum efficiency }
 \label{sec:qe}
-François
+\COMMENT{François}
 
 \subsubsection{Filter transmission}
 \label{sec:filters}
-François
+\COMMENT{François}
 
 \subsubsection{Transmission of the optics}
 \label{sec:optics}
-Bertrand
+\COMMENT{Bertrand}
 
 \subsubsection{Instrumental PSF}
 \label{sec:PSF}
+\COMMENT{Marc,Sylvie,Bertrand}
 \begin{itemize}
 \item Définition Surfaces
 \item Optique polynomiale / zeemacs
 \end{itemize}
 
-Nicolas
+
 
 \subsection{Atmospherique transmission}
 \label{sec:atmosphere}
@@ -95,12 +96,12 @@ Nicolas
 \subsubsection{Horizontal line of sight}
 \label{sec:hline}
 
-Sylvie et Séb
+\COMMENT{Sylvie et Séb}
 
 \subsubsection{Stellar line of sight}
 \label{sec:av}
 
-Sylvie et Séb
+\COMMENT{Sylvie et Séb}
 
 \section{Light sources}
 \label{sec:sources}
@@ -108,17 +109,17 @@ Sylvie et Séb
 \subsection{LEDs}
 \label{sec:leds}
 
-François
+\COMMENT{François}
 
 \subsection{Stars}
 \label{sec:stars}
 
-Marc
+\COMMENT{Marc}
 
 \subsection{Background light}
 \label{sec:background}
 
-Sylvie, Bertrand, Séb
+\COMMENT{Sylvie, Bertrand, Séb}
 
 \section{Observation plan}
 \label{sec:plan}
@@ -141,7 +142,7 @@ Sylvie, Bertrand, Séb
 \section{Data reduction chain}
 \label{sec:dataanalysis}
 
-Marc et François
+\COMMENT{Marc et François}
 \subsection{Detrending}
 \label{sec:detrending}
 
@@ -163,7 +164,7 @@ Marc et François
 \subsection{Ancillary data}
 \label{sec:ancillary}
 
-Séb
+\COMMENT{Séb}
 
 \subsection{Catalog analysis}
 \label{sec:analysis}

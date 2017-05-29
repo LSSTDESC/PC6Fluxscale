@@ -33,13 +33,16 @@
 \maketitlepre
 
 \begin{abstract}
-
-A very brief description of your paper, for the folder's README. (Once you've typed this, you'll be asked for three more items:  the project repo name, a serial number (just choose 0000, it'll get changed later), and a short title (that doesn't contain the repo name). These will then be used to set the paper's folder name, for you to accept or modify. Finally, you'll be asked to choose your Note's format, from [tex/apj/mnras/prl/prd/ipynb/md/rst]. You can always change your mind later, and it's easy to convert a tex Note into a journal paper with the start_paper make command.
-
+  We describe a model of the expected StarDICE data. We use the model
+  to produce simulated datasets. We then describe the current status
+  of the reduction and analysis chain and process simulated data
+  through this chain. This draws a forecast of the performance of the
+  next campaign as a function of the number of nights and variability
+  of atmospheric parameters.
 \end{abstract}
 
 % Keywords are ignored in the LSST DESC Note style:
-\dockeys{latex: templates, papers: awesome}
+\dockeys{photometry: calibration}
 
 \maketitlepost
 
@@ -49,16 +52,130 @@ A very brief description of your paper, for the folder's README. (Once you've ty
 \section{Introduction}
 \label{sec:intro}
 
-This is a paper and note template for the LSST DESC \citep{Overview,ScienceBook,WhitePaper}.
-You can delete all this tutorial text whenever you like.
-
-You can easily switch between various \LaTeX\xspace styles for internal notes and peer reviewed journals.
-Documents can be compiled using the provided \code{Makefile}.
-The command \code{make} with no arguments compiles \code{main.tex} using the  \code{lsstdescnote.cls} style.
-If you want to upgrade your Note into a journal article, just choose a journal name, between \code{make apj} (ApJ preprint format), \code{make apjl} (which uses the \code{emulateapj} style), \code{make prd}, \code{make prl}, and \code{make mnras}.
+For an isolated point source:
+\begin{equation}
+  \begin{split}
+    \phi_i & \sim \mathcal{P}\left(\tau_\text{exp} \int_{\lambda} d\lambda R(i, \lambda, t) \left[B_i(\lambda) + A(\lambda, t) S(\lambda)\int_{p_i} dx \psi(x - x_0)\right] \right)\\
+    \Phi & = \sum_{i \in {Aperture}} w_i \frac1{G(t)} \phi_i + n_i  \quad \text{with } n_i = \mathcal{N}(b_i(t), \sigma_r^2) 
+\end{split}
+\end{equation}
 
 
 % ----------------------------------------------------------------------
+\section{Components of the photometric response model}
+\label{sec:model}
+
+\subsection{Instrumental response}
+\label{sec:instrument}
+
+\subsubsection{Detector quantum efficiency }
+\label{sec:qe}
+François
+
+\subsubsection{Filter transmission}
+\label{sec:filters}
+François
+
+\subsubsection{Transmission of the optics}
+\label{sec:optics}
+Bertrand
+
+\subsubsection{Instrumental PSF}
+\label{sec:PSF}
+\begin{itemize}
+\item Définition Surfaces
+\item Optique polynomiale / zeemacs
+\end{itemize}
+
+Nicolas
+
+\subsection{Atmospherique transmission}
+\label{sec:atmosphere}
+
+\subsubsection{Horizontal line of sight}
+\label{sec:hline}
+
+Sylvie et Séb
+
+\subsubsection{Stellar line of sight}
+\label{sec:av}
+
+Sylvie et Séb
+
+\section{Light sources}
+\label{sec:sources}
+
+\subsection{LEDs}
+\label{sec:leds}
+
+François
+
+\subsection{Stars}
+\label{sec:stars}
+
+Marc
+
+\subsection{Background light}
+\label{sec:background}
+
+Sylvie, Bertrand, Séb
+
+\section{Observation plan}
+\label{sec:plan}
+
+\subsection{Dataset for the pointing model}
+\label{sec:pointingmodel}
+
+\subsection{Dataset for the focus model}
+\label{sec:focusmodel}
+
+\subsection{Flatfields}
+\label{sec:flatfields}
+
+\subsection{Telescopic PSF studies}
+
+
+\subsection{Science dataset}
+\label{sec:data}
+
+\section{Data reduction chain}
+\label{sec:dataanalysis}
+
+Marc et François
+\subsection{Detrending}
+\label{sec:detrending}
+
+\subsection{image processing}
+\label{sec:processing}
+
+\subsubsection{Source detection}
+\label{sec:detection}
+
+\subsubsection{Centroiding}
+\label{sec:centroiding}
+
+\subsubsection{photometry}
+\label{sec:photometry}
+
+\subsubsection{astrometry}
+\label{sec:astrometry}
+
+\subsection{Ancillary data}
+\label{sec:ancillary}
+
+Séb
+
+\subsection{Catalog analysis}
+\label{sec:analysis}
+
+
+\section{Performance forecast}
+\label{sec:forecast}
+
+
+\section{Conclusion}
+\label{sec:conclusion}
+
 
 \section{Commands}
 \label{sec:commands}

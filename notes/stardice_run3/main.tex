@@ -172,6 +172,8 @@ filters set is shown in Figure \ref{fig:filters_transmissions}.
 \subsubsection{Thermodynamical properties of the atmosphere}
 
 \paragraph{Isothermal atmosphere}
+
+
 \begin{eqnarray}
 \frac{dP(h)}{dz} & = & - \rho(h) \cdot g  \nonumber \\
 \rho(h)              & = & \frac{M}{RT_0}\cdot P(h) \nonumber \\
@@ -187,7 +189,248 @@ P(h)                  &=& P_0 \exp(- \frac{gM}{RT_0}h) \nonumber
 \end{itemize}
 
 
-\subsubsection{Verticall line of sight}
+\paragraph{Non Isothermal atmosphere}
+
+\begin{eqnarray}
+\frac{dP(h)}{dz} & = & - \rho(h) \cdot g  \nonumber \\
+\rho(h)              & = & \frac{P(h) M}{R T(h)}  \nonumber \\
+T(h)                  & =&  T_0 - L\cdot  h \nonumber \\ 
+P(h)                 & = &  P_0 \left(1 - \frac{L h}{T_0} \right)^\frac{g M}{R L} \nonumber 
+\end{eqnarray}
+
+\begin{itemize}
+\item  $P_0 = $ sea level standard atmospheric pressure, 101.325 kPa
+\item $T_0 = $ sea level standard temperature, 288.15 K
+\item $g = $  earth-surface gravitational acceleration, 9.80665 m/s2
+\item  $ L = $ temperature lapse rate, 0.0065 K/m (troposphere)
+\item $ R = $  ideal (universal) gas constant, 8.31447 J/(mol·K)
+\item $ M = $ molar mass of dry air, 0.0289644 kg/mol
+\end{itemize}
+
+
+\paragraph{Atmospheric transmission}
+
+\subparagraph{Rayleigh scattering (also called molecular scattering)}
+
+Rayleigh optical depth $OD$ wrt Air column depth $X(h)$}:
+
+$$
+\left\{
+\begin{array} {c c c}
+OD_{rayl}& =& \frac{X(h,\theta)}{3102 g/cm^2 } \left( \frac{400 nm}{\lambda}\right)^4  \frac{1}{ 1-0.0722\left(\frac{400nm}{\lambda}\right)^2} \\
+OD_{rayl}& =& \frac{X(h,\theta)}{2770 g/cm^2 } \left( \frac{400 nm}{\lambda}\right)^4 
+\end{array}
+\right.
+$$
+
+\begin{itemize}
+\item Air column depth : $ X(h) = P(h)/\cos\theta$
+\item Air transmission : $T=\exp^{-OD_{rayl}}$
+\end{itemize}
+
+\subparagraph{Molecular absorption}
+
+
+Absorption lines coefficient is parameterized according a complex formula derived from Quantum mechanics. It has two contributions, the oscillator strength and the line shape.
+
+Absorption coefficient and transmittance:
+
+
+$$
+\left\{
+\begin{array} {c c c}
+T_\nu(u)  & =  & e^{-\tau} =\exp\left( - \int_u k_\nu du  \right) \\
+k_\nu(p,T) & = & \sum_{j=1}^N S_j(T) f_{\nu,j}(p,T)
+\end{array}
+\right.
+$$
+
+The exact  form of the line-shape depends on the altitude and density. Its line-width scale with $P$ and $T$ as $\alpha(p,T)= \alpha_0 \left(\frac{P}{P_0} \right)  \left(\frac{T_0}{T} \right)^n$.
+
+
+The line-shape
+
+$$
+\left\{
+\begin{array} {c c c}
+f_l(\nu-\nu_0) & = & \frac{1}{\pi}\frac{\alpha}{(\nu-\nu_0)^2+\alpha^2} \\
+f_{l_2}(\nu-\nu_0) & = & \frac{1}{\pi}\frac{\beta(\nu-\nu_0)+\alpha}{(\nu-\nu_0)^2+\alpha^2} \\
+f_d(\nu-\nu_0) & = &  \frac{1}{\alpha_d \sqrt{\pi}}\exp\left( - \frac{(\nu-\nu_0)^2}{\alpha_d^2}\right) \\
+f_v(\nu-\nu_0) & = &  \int_{-\infty}^{\infty} f_l(\nu'-\nu_0)f_d(\nu-\nu')d\nu'=\frac{1}{\alpha'_d}\left( \frac{\ln(2)}{\pi}\right)^{1/2} K(x,y)
+\end{array}
+\right.
+$$
+
+
+The Oscillator strength:
+
+$$
+\left\{
+\begin{array} {c c c}
+S(T)  & \approx & S(T_r) \left( \frac{T_r}{T} \right)^n \exp \left( - \frac{hc E_i}{k}\left(\frac{1}{T}-\frac{1}{T_r}\right)\right) \\
+S_i  & \propto & a_i |{\cal{M}}_{if} |^2 \frac{g_i \exp (-hc E_i/kT)}{Q(T)}\left(1-\exp(-hcE_0/kT) \right) \\
+Q(T) & = & \sum_i g_i \exp(-E_i/kT) \\
+{\cal M}_{if} & = & \int_V \psi_f V_I \psi_i dV
+\end{array}
+\right.
+$$
+
+All this parameters have been measured and tabulated in Hitran database used by LibRadTran and Modtran.
+
+\paragraph{Optical depth calculation}
+
+\begin{itemize}
+\item $\tau^i_\sigma$ : optical depth calculated from cross section $\sigma^i (T)$ for specie $i$,
+\item $\tau^i_k$ : optical depth calculated from absorption coefficient  $k^i (P,T)$ for specie $i$,
+\item $L$ : Horizontal path in air (Source-Telescope distance).
+\end{itemize}
+
+$$
+\left\{
+\begin{array} {c c c}
+\tau^i_\sigma & = & \sigma^i(T) \cdot \rho_N^i \cdot L =
+ \frac{{\cal N}_A}{R T(h)} \cdot L \cdot \sigma^i(T)   \\
+\tau^i_k & = & k^i (P,T) \cdot  \rho_N^i \cdot L =
+\frac{{\cal N}_A}{R T(h)} \cdot L \cdot k^i (P,T) 
+\end{array}
+\right.
+$$
+
+\begin{itemize}
+\item $\sigma^i (T)$ and  $k^i (P,T)$ are provided by HITRAN,
+\item $\rho^i (h)$ are provided by libRadTran assuming a standard atmospheric profile : (us, mw, ms) (molecular fraction of species)
+\item $P,T$ are provided by auxiliary data.
+\end{itemize}
+
+
+\subparagraph{Aerosols Optical Depth}
+
+$$
+\left\{
+\begin{array} {c c c}
+\tau_{VAOD} (\lambda) &  =  & \tau_{aer}(\lambda_0) \left(\frac{\lambda_0}{\lambda}\right)^\alpha \\
+\tau_{VAOD}(\lambda) & = & \int \beta_{aer}(z,\lambda)\cdot dl
+\end{array}
+\right.
+$$
+\begin{itemize}
+\item $\tau_{AOD} $ : Optical index
+\item $\beta_{aer}(z,\lambda) $ : Attenuation coefficient per unit distance at altitude $z$
+\end{itemize}
+
+
+Vertical distribution of Aerosols
+$$
+\left\{
+\begin{array} {c c c}
+\beta_{aer}(h_2,\lambda) & = & \beta_{aer}(h_1,\lambda) \exp\left( \frac{-(h_2-h_1)}{H_p}\right)  \\
+0.95 \; km & < H_P < & 1.5\; km \\
+h & < & 5 \; km
+\end{array}
+\right.
+$$
+
+
+Horizontal and Vertical Aerosol Optical Depth $\tau_{VAOD}$ and $\tau_{HAOD}$
+
+$$
+\left\{
+\begin{array} {c c c}
+\beta_{aer}(h,\lambda) & = & \frac{\tau_{VAOD}}{H_p\cdot \left[ 1 - \exp \left( -\frac{h_2-h_1}{H_P}\right)\right]} \approx \frac{\tau_{VAOD}(\lambda)}{H_p} \\
+\tau_{HAOD}(h,\lambda) & = & \beta(h,\lambda)\cdot L = \frac{L}{H_P} \tau_{VAOD}(\lambda)
+\end{array}
+\right.
+$$
+
+
+\paragraph{Flux}
+
+Flux measurement at the CCD
+
+\[
+\delta F^{ADU} (\lambda) = \frac{\pi D^2}{g_{el}hc} \epsilon_{quant}(\lambda) T_{opt}(\lambda) T_{atm} (\lambda)F^E_{\lambda} (\lambda)  \lambda \delta \lambda 
+\]
+\begin{itemize}
+\item $\frac{\pi D^2}{g_{el}hc}$ is a normalisation constant useful in case of photometry ($D$ is the telescope diameter, $g_{el}$ is the photoelectron yield in electron per ADU),
+\item  $\epsilon_{quant}(\lambda) $ is the known quantum efficiency of the CCD,
+\item $T_{opt}(\lambda)$ is the known optical throughput including optics, filters and grating transmission,
+\item $T_{atm}(\lambda)$ is the atmospheric transparency that we want to estimate.
+\item $F^E_{\lambda} (\lambda)$ is the known SED of the observed star.
+\end{itemize}
+
+
+\paragraph{Atmospheric Transparency}
+
+\[
+T_{atm}(\lambda) = T^{mol.scatt.}(\lambda,z)\cdot T^{mol.abs}(\lambda,z)\cdot T^{aer}(\lambda,z)\cdot T^{grey}(z)
+\]
+\begin{itemize}
+\item $T^{mol.scatt.}(\lambda,z)$ : is the well known molecular scattering also called Rayleigh scattering,
+\item $ T^{mol.abs}(\lambda,z)$ : is the well known molecular absorption,
+\item $T^{grey}(z)$ is an unknown grey attenuation which ins independent of $\lambda$,
+\item $T^{aer}(\lambda, z)$ is an unknown attenuation induced by  aerosols.
+\end{itemize}
+
+
+\paragraph{Simulation}
+
+\subparagraph{: Clear Sky, Data : Clear Sky + Grey + Aerosols}
+
+\[
+T_{atm}^{clear.sky}(\lambda) = T^{mol.scatt.}(\lambda,z)\cdot T^{mol.abs}(\lambda,z)
+\]
+\end{exampleblock}
+\begin{exampleblock}{Data : Clear Sky + Grey and Aerosols extinctions}
+\begin{eqnarray}
+T^{grey}(z) & = &   \exp \left(- \tau_v^{grey}\cdot z \right)  \nonumber   \\
+T^{aer}(z) & =  &    \exp\left(-\tau_v^{aer}\cdot z \left(\frac{\lambda_0}{\lambda}\right)^\alpha \right)    \nonumber
+\end{eqnarray}
+\end{exampleblock}
+\begin{itemize}
+\small{
+\item $\lambda_0$ is an arbitrary reference wavelength which can be chosen arbitrarily, for example $\lambda_0=500~nm$,
+\item $ \tau_v^{grey}$ and $\tau_v^{aer}$ are the gray and aerosols vertical optical depth at $\lambda_0$ which has to be measured,
+\item $\alpha$ is the Angstrom exponent of the aerosols which has to be also measured. It is expected that $\alpha \ll4$.
+}
+\end{itemize}
+
+\subparagraph{Flux - Magnitude Measurement and Bouguer line}
+
+\begin{eqnarray}
+ - M &  = & 2.5 \log_{10}  \left( \delta F^{ADU} (\lambda)  \right)    \cdots \nonumber \\
+  & \simeq & Cte -  \tau_{Rayleigh}(\lambda,P)\cdot z \nonumber - \epsilon(gray,aer) \cdot z \\
+ & \simeq &  Cte -  \tau_{Rayleigh}(\lambda_0,P) \left(\frac{\lambda_0}{\lambda} \right)^4\cdot z- \epsilon(gray,aer)\cdot z   \nonumber 
+\end{eqnarray}
+\end{exampleblock}
+\begin{itemize}
+\item z : airmass
+\item optical depth $\tau_{Rayleigh}(\lambda,P)$ depends on air column depth $X$, thus on its weight through pressure $P$
+\item valid outside absorption bands or absorption line removed
+\item $\epsilon(gray,aer)$ neglected in a first approximation
+\end{itemize}
+
+
+\subparagraph{Flux Ratio Data/Sim - Magnitude Difference and Modified Bouguer line}
+
+
+\begin{eqnarray}
+R(\lambda,z) & =  &\frac{\delta F^{ADU}_{data}  (\lambda,z)}{\delta F^{ADU,clear.sky}_{sim} (\lambda,z)} = T^{grey}(z) \cdot T^{aer}(\lambda, z) \nonumber \\ 
+\delta M & = & -2.5 \log_{10} \left(  R(\lambda,z) \right) =  - \{ \tau_v^{grey} +   \tau_v^{aer}\cdot z \left(\frac{\lambda_0}{\lambda}\right)^\alpha \} \cdot z \nonumber
+\end{eqnarray}
+
+\subparagraph{Double Ratio Flux Ratio Data/Sim - Magnitude Difference and Modified Bouguer line}
+
+
+\begin{eqnarray}
+R(\lambda,z) & =  &\frac{\delta F^{ADU}_{data}  (\lambda,z)}{\delta F^{ADU,clear.sky}_{sim} (\lambda,z)}  \nonumber \\
+U (\lambda,z,z_{min})  & =  & \frac{R(\lambda,z)}{R(\lambda,z_{min})}   =   \exp \left(- (z-z_{min}) \cdot (\tau_v^{gray}+\tau_v^{aer} \left(\frac{\lambda_0}{\lambda}\right)^\alpha) \right  )  \nonumber\\
+ W(\lambda,z,z_{min}) & = & \frac{- \ln \left(U (\lambda,z,z_{min}) \right) }{z-z_{min}} = \tau_v^{gray}   + \tau_v^{aer} \left( \frac{\lambda_0}{\lambda}\right)^\alpha  \nonumber  
+\end{eqnarray}
+
+
+
+
+\subsubsection{Vertical line of sight}
 \label{sec:vline}
 
 
@@ -363,7 +606,7 @@ But as it has been said previously, some $f_{i, j}$'s should not be
 part of our analysis.  The iterative rejection procedure is as follows
 :
 \begin{itemize}
-\item We caluculate $F_i$
+\item We calculate $F_i$
 \item We mask $(i, j)$ couples for which $|f_{i, j} - K_jF_i| > 5\sigma$
 \item We compute again $F_i$ but with the masked dataset
 \item We continue until the mask doesn't change from one iteration to another.

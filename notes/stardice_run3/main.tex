@@ -164,15 +164,39 @@ filters set is shown in Figure \ref{fig:filters_transmissions}.
 \end{itemize}
 
 
-
+%------------------------------------------------------------------------------------------------------------------------------------------
 \subsection{Atmospherique transmission}
 \label{sec:atmosphere}
+
+
+\subsubsection{Thermodynamical properties of the atmosphere}
+
+\paragraph{Isothermal atmosphere}
+\begin{eqnarray}
+\frac{dP(h)}{dz} & = & - \rho(h) \cdot g  \nonumber \\
+\rho(h)              & = & \frac{M}{RT_0}\cdot P(h) \nonumber \\
+P(h)                  &=& P_0 \exp(- \frac{gM}{RT_0}h) \nonumber  
+\end{eqnarray}
+
+\begin{itemize}
+\item $P_0= $101325 Pa,
+\item $T_0=$288.15 K (see level)
+\item  $g=$9.80665~m/s$^2$
+\item  $M=$0.0289644 kg/mol molar mass of dry air,
+\item  $R=$8.31447~J/(mol.K) : universal gas constant). 
+\end{itemize}
+
+
+\subsubsection{Verticall line of sight}
+\label{sec:vline}
+
 
 \subsubsection{Horizontal line of sight}
 \label{sec:hline}
 
 \COMMENT{Sylvie et Séb}
 
+%---------------------------------------------------------------------------------------------------------------------------------------
 \subsubsection{Stellar line of sight}
 \label{sec:av}
 

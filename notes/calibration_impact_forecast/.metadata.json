@@ -1,0 +1,12 @@
+{
+    "author": "Marc Betoule",
+    "affiliation": "LPNHE",
+    "email": "marc.betoule@lpnhe.in2p3.fr",
+    "title": "StarDICE run 3: simulation and performance forecasts",
+    "description": "A very brief description of your paper, for the folder's README. (Once you've typed this, you'll be asked for three more items:  the project repo name, a serial number (just choose 0000, it'll get changed later), and a short title (that doesn't contain the repo name). These will then be used to set the paper's folder name, for you to accept or modify. Finally, you'll be asked to choose your Note's format, from [tex/apj/mnras/prl/prd/ipynb/md/rst]. You can always change your mind later, and it's easy to convert a tex Note into a journal paper with the start_paper make command.",
+    "repo_name": "LSSTDESC/PC6Fluxscale",
+    "serial_number": "0000",
+    "short_title": "StarDICE run 3",
+    "folder_name": "stardice_run3",
+    "default_format": "tex"
+}

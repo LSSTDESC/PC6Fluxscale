@@ -1,0 +1,177 @@
+% 
+% ======================================================================
+\RequirePackage{docswitch}
+% \flag is set by the user, through the makefile:
+%    make note
+%    make apj
+% etc.
+\setjournal{\flag}
+
+\documentclass[\docopts]{\docclass}
+
+% You could also define the document class directly
+%\documentclass[]{emulateapj}
+
+% Custom commands from LSST DESC, see texmf/styles/lsstdesc_macros.sty
+\usepackage{lsstdesc_macros}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{./}{./figures/}}
+\bibliographystyle{apj}
+
+% Add your own macros here:
+
+
+
+% 
+% ======================================================================
+
+\begin{document}
+
+\title{ Impact of the calibration on the performances of the LSST SN survey }
+
+\maketitlepre
+
+\begin{abstract}
+\end{abstract}
+
+% Keywords are ignored in the LSST DESC Note style:
+\dockeys{photometry: calibration}
+
+\maketitlepost
+
+% ----------------------------------------------------------------------
+% 
+
+\section{Introduction}
+\label{sec:intro}
+
+% As we are getting closer to the first light of the Large Synoptic Survey Telescope, which will allow us to find and measure a huge amount of Type Ia Supernovae, the question of our preparation in order to extract the maximum of information on the dark energy from this future dataset is becoming crucial.
+% One of the must critical point is about how we are able to reduce the systematics of the survey, and especially the calibration uncertainties.
+The goal of the forecast work presented in this note is to study the impact of the LSST SN survey calibration, that is parametrized on one side as errors in the zeropoint of each filter ($\delta_{zp}$'s) and on the other as shifts in wavelength of each filter ($\delta_\lambda$'s) on the accuracy of the cosmology we will extract from LSST.
+It is also a part of a proposed analysis pipeline in which the standardization of the SNe Ia, their spectrophotometric evolution and the cosmology are fitted at the same time.
+In section \ref{sec::jla} we present the state of the art in SNe Ia survey analysis through the Joint Light-curve Analysis (CITATION ARTICLE MARC), analysis of which the cosmology group of the LPNHE is familiar to.
+It will show that even for for a dataset that contains 100 times statistics the calibration has became one on the highest concerns.
+In section \ref{sec::simulated_dataset} we rely on the work presented in (REF NOTE ON THE CADENCE OF ...) DESC note to highlight the observing cadence, the instrument and the observing conditions we use in this forecast work.
+In \ref{ssec:snsim} we also rely on the work presented in (REF SNSIM ...) to explain how SNe Ia light curves are simulated here and the complete the full description of the dataset that will be the input of our analysis.
+In \ref{sec::analysis_model} we focus on how the simulated dataset can be modelized using simultaneously the standardization of the SNe Ia, their photometric evolution through a SALT2-like model, and the cosmology.
+In \ref{sec::calib_uncertainties} we explain how the calibration uncertainties are modelized and how they fit into the the model presented in \ref{sec::analysis_model}.
+Emphasis will be put on how the two different sets of calibration parameters are connected and how it shapes the calibration covariance matrix, which will be expressed.
+Finaly in section \ref{sec::results} we show how we quickly compute the performances of the survey through the calculus of the Figure of Merit (FoM), this for different calibration strategies.
+In particular we show the example of the impact of the constrains on the calibration that the STARDICE experiment will put.
+We also show the results given by this study trained on the JLA dataset to proove its reliability.
+In \ref{sec::discussion} we discuss the results and compare them to those we obtain without taking into account the training of the SNe Ia spectrophotometric model.
+We conclude in \ref{sec::conclusion}.
+
+% ----------------------------------------------------------------------
+
+\section{State of the art : JLA}
+\label{sec::jla}
+
+Présentation des résultats JLA, description de la calibration \\
+Comparaison entre l'impact des systématiques et celui des incertitudes statistiques \\
+Ouverture sur la stat de LSST: super statistique gâchée si pas d'amélioration sur les systématiques, dont la principale est la calibration \\
+Demande une assez grosse discussion avec le groupe pour savoir ce que l'on met dans cette partie
+
+% ----------------------------------------------------------------------
+
+\section{Simulated dataset}
+\label{sec::simulated_dataset}
+
+\subsection{Cadence}
+\label{subsec::cadence}
+Présentation Wide / DEEP : ce que OpSim dit jusqu'à présent --> pas idéal (montrer les mauvaises LC)\\
+Rolling cadence pour le wide et (p-e) DEEP plus profond\\
+Tables comme récapitulatif de ce qu'on prend pour le Wide et le Deep\\
+
+\subsection{Instrument Model}
+Travail de Philippe Gris sur le modèle d'instrument --> plot de la transmission de l'instrument dans grizy
+
+\subsection{Observing conditions}
+Pareil, avec tableau du seeing median + sky brightness
+
+\subsection{Simulated SNe}
+\label{ssec::snsim}
+Le machin a été produit par SnSim : montrer les jolies LC; très très brève description de SnSim: c'est rapide et c'est chouette \\
+Montrer la distribution en redshift des SNe Ia bien mesurées en utilisant les la stratégie d'observation de \ref{subsec::cadence} \\
+Plots d'évolution de $\sigma_C$ et $\sigma_{X1}$
+
+% ----------------------------------------------------------------------
+
+\section{Analysis Model}
+\label{sec::analysis_model}
+Présentation du modèle utilisé.
+Dire qu'il fit simultanément:
+\begin{itemize}
+\item Le modèle spectrophotométrique des SNe Ia (SALT2 mais simplifié dans un premier temps)
+\item La standardisation des SNe Ia
+\item Une cosmologie (w0wa ou binnée) \\
+\end{itemize}
+--> Montrer un fit et montrer que ce modèle reproduit bien les données mises en entrée
+
+% ----------------------------------------------------------------------
+
+\section{Calibration uncertainties}
+\label{sec::calib_uncertainties}
+Dire que les incertitudes sur la calibration sont modélisés en deux lots de paramètres:
+\begin{itemize}
+\item Les delta-zp
+\item Les delta-lambda
+\end{itemize}
+Expliquer ces deux types de paramètres\\
+Parler de la stratégie de calibration actuelle ce qui donne --> la matrice de covariance de la calibration.\\
+Montrer celle de STARDICE
+
+% ----------------------------------------------------------------------
+
+\section{Results}
+\label{sec::results}
+Expliquer l'algèbre linéaire : Pas de fit --> on calcule seulement la matrice de Fisher \\
+Dire que du coup tout se fait assez vite (software performances) \\
+On montre le calcul de la FoM \\
+On montre les plots d'évolution de la FoM (grille ou 2 plots 1D... à voir!) \\
+On peut faire tourner le pipeline sur les données de JLA \\
+
+% ----------------------------------------------------------------------
+
+\section{Discussion}
+\label{sec:discussion}
+
+Parler du training
+
+
+% ----------------------------------------------------------------------
+
+\section{Conclusions}
+\label{sec:conclusions}
+
+Here's a summary of what we just reported.
+
+We can draw the following well-organized and neatly-formatted conclusions:
+\begin{itemize}
+  \item This is important.
+  \item We can measure some number with some precision.
+  \item This has some implications.
+\end{itemize}
+
+Here are some parting thoughts.
+
+
+% ----------------------------------------------------------------------
+
+\subsection*{Acknowledgments}
+
+Here is where you should add your specific acknowledgments, remembering that some standard thanks will be added via the \code{acknowledgments.tex} and \code{contributions.tex} files.
+
+\input{acknowledgments}
+
+\input{contributions}
+
+%{\it Facilities:} \facility{LSST}
+
+% Include both collaboration papers and external citations:
+\bibliography{lsstdesc,main}
+
+\end{document}
+% ======================================================================
+% 

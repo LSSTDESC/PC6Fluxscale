@@ -81,18 +81,71 @@ Demande une assez grosse discussion avec le groupe pour savoir ce que l'on met d
 \subsection{Cadence}
 \label{subsec::cadence}
 
+The LSST SN survey will be splitted in two different layers:
+\begin{itemize}
+\item A wide survey that will be composed of small time exposures over a large fraction of the sky.
+  It would allow to discover a large number of nearby SNe Ia.
+\item A deep survey inwhich a small number of fields will be observed but with high exposure times to ensure we get distant SNe Ia.
+\end{itemize}
 The exact cadence of the LSST SN survey is still in discussion and the results that will be presented below are likely to change.
-For the moment we rely on the study of the different observation strategies from (REF CADENCE NOTE).
-The LSST SN survey will be splitted in two different layers: A wide survey that will cover 
+At the moment the LSST Operations Simulator (\code{OpSim}) last results (\code{Minion\_1016}) are pessimistic: according to (REF REF REF papier cadence) the cadence of the wide and the exposure times of the deep layer are too small.
+For the moment we rely on the work presented in (REF REF REF papier cadence), which proposes to use a rolling cadence for the wide survey and increase the exposure times of the deep. The nominal scenarii for the wide and the deep layer shown in (REF REF REF papier cadence) are detailed in Table \ref{tab:nominal_scenario_wide} and \ref{tab:nominal_scenario_DDF} respectively.
 
-Présentation Wide / DEEP : ce que OpSim dit jusqu'à présent --> pas idéal (montrer les mauvaises LC)\\
-Rolling cadence pour le wide et (p-e) DEEP plus profond\\
-Tables comme récapitulatif de ce qu'on prend pour le Wide et le Deep\\
+\begin{table*}[t]
+\begin{center}
+\caption{A nominal scenario for the wide that allows to build a SN
+  sample complete up to $z \sim 0.4$.}
+\label{tab:nominal_scenario_wide}
+\begin{tabular}{l|cccc}
+\hline
+\hline
+              & $g$ & $r$ & $i$ & $z$ \\
+\hline 
+$T_{exp}$      & 30       &   30    &  30        & 30       \\
+$m_{5\sigma}$  &  24.83   &  24.35   &  23.88    &  23.30   \\
+cadence       &  \multicolumn{4}{c}{3 days} \\
+Target amplitude SNR & $>30$ & $>40$ & $>30$ & $>20$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
 
-\subsection{Instrument Model}
+\begin{table*}[t]
+\begin{center}
+\caption{A nominal scenario for the DDF that allows to build a SN
+  sample complete up to $z \sim 0.75$.}
+\label{tab:nominal_scenario_DDF}
+\begin{tabular}{l|cccc}
+\hline
+\hline
+              & $r$ & $i$ & $z$ & $y$ \\
+\hline 
+$T_{exp}$      & 1200 & 1800 & 1800 & 1800 \\
+$m_{5\sigma}$  & 26.43    & 26.16    &  25.56    &  24.68   \\
+cadence       &  \multicolumn{4}{c}{3 days} \\
+Target amplitude SNR & $>25$ & $>60$ & $>35$ & $>20$ \\
+\hline
+\end{tabular}
+\end{center}
+\end{table*}
+
+In our foecast we use a regular cadence based on the previous data. We suppose that every epoch will be performed and that we will suffer no lost due to bad weather for example.
+
+\subsection{Instrument Model and Observing conditions}
+
+Concerning the instrument model and still relying on the (REF REF cadence paper) we use the most recent model from (REF REF REF Jones 2016) (SMTN-002). The previous model, described in (REF REF REF Ivezic et al. 2010) (LSE-40) has been revised and the new troughput is 40\% lower  in SMTN-002.
+Concerning the observing conditions, we use median donditions (same for all epoch), we can see these values for each filter in the Figure \ref{fig:zp} extracted from the (REF REF cadence paper).
+
+\begin{figure}[t]
+\begin{center}
+\includegraphics[width=\linewidth]{lsst_model_summary.pdf}
+\caption{Zero-points, median seeing, dark sky mags and limiting mags}
+\label{fig:zp}
+\end{center}
+\end{figure}
+
+
 Travail de Philippe Gris sur le modèle d'instrument --> plot de la transmission de l'instrument dans grizy
-
-\subsection{Observing conditions}
 Pareil, avec tableau du seeing median + sky brightness
 
 \subsection{Simulated SNe}
@@ -155,16 +208,6 @@ It incorporates to our model as follows:
 m_b = M_B + 25 + \mu(z, \theta_\text{cosmo}) + 2.5log_{10}(1+z) + P(\frac{\bar \lambda}{1+z}) + cQ(\frac{\bar \lambda}{1+z}) + \textcolor{red}{c\beta}+ \mathcal{Z}_b
 \end{equation}
 
-
-Présentation du modèle utilisé.
-Dire qu'il fit simultanément:
-\begin{itemize}
-\item Le modèle spectrophotométrique des SNe Ia (SALT2 mais simplifié dans un premier temps)
-\item La standardisation des SNe Ia
-\item Une cosmologie (w0wa ou binnée)
-\end{itemize}
---> Montrer un fit et montrer que ce modèle reproduit bien les données mises en entrée
-
 % ----------------------------------------------------------------------
 
 \section{Calibration parameters}
@@ -206,19 +249,44 @@ C_s =
 \end{pmatrix}
 \end{equation}
 
+% ----------------------------------------------------------------------
 
-Dire que les incertitudes sur la calibration sont modélisés en deux lots de paramètres:
+\section{Model degeneracies}
+\label{sec::model_deg}
+
+At this current stage our model have some degeneracies that we must get rid of.
+The way to handle this degeneracies is to add priors to our model.
+If $J$ is the matrix of the derivatives  of our model with respect to all free parameters (columns) for all light curve amplitudes measured (lines), we can vertically add matrices to $J$ for each prior, corresponding to one or more "additionnal" measurements:
+\begin{equation}
+J =
+\begin{pmatrix}
+  J \\
+  J_\text{priors}
+\end{pmatrix} 
+\end{equation}
+
+In parallel, if $C$ is the covariance matrix of our measurements, we add diagonally the covariance matrix of the prior to $C$:
+\begin{equation}
+C =
+\begin{pmatrix}
+  C & 0 \\
+  0 & C_\text{priors}
+\end{pmatrix} 
+\end{equation}
+
+In our case we add the following priors:
 \begin{itemize}
-\item Les delta-zp
-\item Les delta-lambda
+\item The spectrum normalization, to cut degeneracy with the distance modulus $\mu$ that could increase while $M_B$ decrease.
+\item The spectrum color, that is degenerate with the color law ??????????????
+\item The fact that the color law is fixed at $\lambda_B$ and $\lambda_V$ respectively mean wavelength of the $B$ and $V$-bands
+\item We fix the dispersion of the $M_B$'s at 14\% because otherwise we have degeneracies with the distance moduli.
+\item Since we use a $w_0w_a$ cosmology, $\theta_\text{cosmo} = \{ \Omega_m$, $\Omega_k$, $w_0$, $w_a$, $H_0$, $\Omega_bh^2 \}$, we add a Planck prior, extracted from (REF REF REF Planck 2015) results, which brings us the information on $H_0$ and $\Omega_k$ we wouldn't get with the SNe Ia only.
 \end{itemize}
-Expliquer ces deux types de paramètres\\
-Parler de la stratégie de calibration actuelle ce qui donne --> la matrice de covariance de la calibration.\\
-Montrer celle de STARDICE
+
 
 % ----------------------------------------------------------------------
 
-\section{Linear Algebra}
+\section{Error propagation}
 \label{sec::linalg}
 
 If we linearize our model $\mathcal{M}$, we have:
@@ -226,18 +294,19 @@ If we linearize our model $\mathcal{M}$, we have:
 \mathcal{M} = J \times \vec\theta
 \end{equation}
 Where $J$ is called the "jacobian" matrix and contains the derivatives of our model with respect to all free parameters (columns) for all light curve amplutude measured (lines) and $\vec\theta$ the vector of all our free parameters.
-Lets make review of our free parameters, if $N$ is the number of supernovae measured:
-\begin{itemize}
-\item $M_B$, the supernova absolute magnitude in $B$-band, $\times N$
-\item $\theta_\text{cosmo}$, in the case of a $w_0w_a$ cosmology it is : ($\Omega_m$, $\Omega_k$, $w_0$, $w_a$, $H_0$, $\Omega_bh^2$)
-\item $\theta_P$, the B-spline basis coefficients for the spectrum, since the basis has 30 nodes it is $\times 31$
-\item $\theta_Q$ the color law parameters, $\times 5$
-\item $c$, the SN color, $\times N$
-\item $\beta$
-\item $\mathcal{Z}$, $\times 5$
-\item $\delta zp$'s, $\times 5$
-\item $\delta \lambda$'s, $\times 5$
-\end{itemize}
+Lets make review of our free parameters, if $N$ is the number of supernovae measured we have:
+
+\begin{tabular}{l|ccccccccc}
+  \hline
+  \hline
+    & $M_B$ & $\theta_\text{cosmo}$ & $\theta_P$ & $\theta_Q$ & $c$ & $\beta$ & $\mathcal{Z}$ & $\delta zp$ & $\delta \lambda$ \\
+  \hline
+  \# parameters & $N$ & 6 & 31 & 5 & $N$ & 1 & 5 & 5 & 5 \\
+  \hline
+\end{tabular}
+
+We will perform a simultaneous fit of all this parameters, but has we can see there's a lot of them, so to ensure a quicker execution and avoid memory issues we work with sparse matrices.
+
 The fit is performed by minimizing the following $\chi^2$:
 \begin{equation}
 \chi^2 = \sum_{sb}\frac{[m_{sb} - \mathcal{M}(s, b, \vec\theta)]^2}{\sigma_{sb}}
@@ -247,36 +316,21 @@ The normal equation for this $\chi^2$ is:
 J^TC^{-1}J = J^TC^{-1}y
 \end{equation}
 where $C$ is the covariance matrix of the measurements.
-At this stage our model contains many degeneracies.
-In order to erase these and thus get informations on the cosmology, we add priors to our model by adding associated jacobian matrices (called $J_p$) verically to $J$:
-\begin{itemize}
-\item The spectrum normalization
-\item The spectrum color
-\item The fact that the color law is fixed at $\lambda_B$ and $\lambda_V$ respectively mean wavelength of the $B$ and $V$-bands
-\item The dispersion of $M_B$ that is 14\%
-\item A Planck prior, extracted from (REF REF REF Planck 2015) results
-\item A BAO prior, extracted from (REF REF REF) results
-\end{itemize}
-We also have to add paralelly the covariance matrices of each prior block-diagonally such as C, the full covariance matrix for our linearized model is:
-\begin{equation}
-C =
-\begin{pmatrix}
-  C_\text{mes} & 0 \\
-  0 & C_\text{priors}
-\end{pmatrix}  
-\end{equation}
 
-One last prior has to be taken into account, which is at the center of our study, it is about the accuracy of the calibration.
-Still it is added to $J$ as a measurement of $\delta zp$ and $\delta lambda$ for each filter, the measurement is set to 0 but the covariance matrix of these is the relevant part.
-We thus still add diagonally to $C$ the covariance matrix $C_s$ of this set of measurements.
+Finally we add the calibration covariance matrix $C_s$ (explicited in \ref{sec::calib_uncertainties}) as a prior to our model (as in \ref{sec::model_deg}), since the uncertainties on the $\delta zp$'s and the $\delta \lambda$'s will be evaluated in experiments like StarDICE. For the moment we have to keep in mind that these value are not fixed, and we are going to make this study for several examples of what would be the calibration accuracy for the LSST SN survey.
+
+Since we want to study the performances of the survey, we do not need to perform a fit.
+The relevant quantity is the Fisher matrix, that we call $H$
+\begin{equation}
+H = J^TWJ
+\end{equation}
+where $W = C^{-1}$.
+The inverse of $H$ is the covariance matrix of all the free parameters. It is why we do not have to perform a fit to study the performances of the survey.
 
 % ----------------------------------------------------------------------
 
 \section{Results}
 \label{sec::results}
-Since we want to study the performances of the survey, we do not need to perform a fit.
-The relevant quantity is the Fisher matrix $H = J^TWJ$, where $W = C^{-1}$.
-to get the covariance matrix of the cosmological parameters we need to invert this matrix.
 We study the performances through the FoM, we have:
 \begin{equation}
 FoM = \frac{1}{\sqrt{det(cov(w_0, w_a))}}
@@ -287,7 +341,6 @@ In a first time we vary a same value for all the $\sigma_{\delta zp}$'s while we
 We compute the $FoM$ for each common value of the $\sigma_{\delta zp}$'s, we present this result in Figure \ref{fig:fom_zp}.
 On this figure we an see that a transition in the level of performances occurs around $\sigma_{\delta zp} = 10^{-3}$.
 If we consider that the current uncertainties on the $\delta zp$'s is around $5 \times 10^{-3}$ (JLA), we note that we need improvements to extract the most information from the statistics granted by one year of the survey.
-We can also note a small "auto-calibration" regime around $10^{-1}$ which can be explained by the fact that even if we know little on the calibration, we are actually scanning a true calibration source (standard SN Ia) at many redshifts and so we get its spectrum at many wavelengths.
 
 \begin{figure}[ht]
   \centering
@@ -296,19 +349,18 @@ We can also note a small "auto-calibration" regime around $10^{-1}$ which can be
   \label{fig:fom_zp}
 \end{figure}
 
-
-Expliquer l'algèbre linéaire : Pas de fit --> on calcule seulement la matrice de Fisher \\
-Dire que du coup tout se fait assez vite (software performances) \\
-On montre le calcul de la FoM \\
-On montre les plots d'évolution de la FoM (grille ou 2 plots 1D... à voir!) \\
-On peut faire tourner le pipeline sur les données de JLA \\
-
 % ----------------------------------------------------------------------
 
 \section{Discussion}
 \label{sec:discussion}
-
-Parler du training
+As a parallel work, we wanted to study what would be this results without the training of our spectrophotometric model, that is by not considering $\theta_P$ as free parameters.
+The figure \ref{fig:fom_wout_training} shows that, compared to what we obtain with the training, we are making a large overestimation of the performances of the survey, and we would think that the calibration does not need to be that precise. That is why we have to take care with handling the spectrophotometric model.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{FoM_20k+training.png}
+  \caption{Evolution of the $FoM$ with the uncertainty on the $\delta zp$'s with and without the spectrophotometric model training}
+  \label{fig:fom_zp}
+\end{figure}
 
 
 % ----------------------------------------------------------------------

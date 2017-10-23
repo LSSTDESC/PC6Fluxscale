@@ -154,6 +154,127 @@ filters set is shown in Figure \ref{fig:filters_transmissions}.
 \subsubsection{Transmission of the optics}
 \label{sec:optics}
 \COMMENT{Bertrand}
+\subsubsection{Descpription of the dataset and its analysis}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.45\linewidth]{master_flat_Bi.png}
+  \includegraphics[width=0.45\linewidth]{master_flat_Vi.png}
+  \includegraphics[width=0.45\linewidth]{master_flat_R.png}
+  \includegraphics[width=0.45\linewidth]{master_flat_I.png}
+  \caption{Master flats for filter $Bi$ (up-left) and $Vi$ (up-right), $R$ (down-left) and $I$ (down-right)}
+  \label{fig:master_flats}
+\end{figure}
+
+During the second run, the 7th June 2016 we took 231 images of the
+twilight sky between 3 and 4 am with 5 different filters (GRISM,
+$B_i$, $V_i$, $R$, $I$) and for different exposure times in which we
+suppose the flux to be homogeneous. Important deviations from this
+model are caused by bright stars and planes going through images
+during the exposure. We mitigate the effect of those moving objects by
+building a master flat field from successive exposures by an iterative
+rejection procedure.
+
+In detail the flux measured in a pixel $i$ of an image $j$ for each
+filter is described by the following model of Poisson distribution:
+$f_{i,j} = K_jF_i + n_{i,j}$ where $F_i$ is the map of the quantum
+efficiency differences common to all images ($<F_i>_i = 1$), $K_j =
+<f_{i, j}>_i$ is the global image flux and depends on each image, and
+$n_{i, j} \approx N(0, \frac{1}{G}f_{i, j})$.  We want to obtain $F_i$
+in order to create a flat field of every image we have for a given
+filter.  A solution to the previous model is : $F_i =
+\frac{\sum_jK_j}{\sum_j \frac{K_j^2}{f_{i, j}}}$.
+
+But as it has been said previously, some $f_{i, j}$'s should not be
+part of our analysis.  The iterative rejection procedure is as follows
+:
+\begin{itemize}
+\item We caluculate $F_i$
+\item We mask $(i, j)$ couples for which $|f_{i, j} - K_jF_i| > 5\sigma$
+\item We compute again $F_i$ but with the masked dataset
+\item We continue until the mask doesn't change from one iteration to another.
+\end{itemize}
+We notice that ~100 images in the $B_i$ filter can not be used because
+we see in them a gradient we don't see in others. The source of this
+problem still has to be determined.  But we obtained a master flat
+field for each of $B_i$, $V_i$, $R$, and $I$ filters (Figure
+\ref{fig:master_flats}).
+
+\subsubsection{Validation of the analysis}
+In each band, we take an image of the twilight, we flat field it using
+the flat field previously computed and we compare both of them.  As we
+can see in Figures \ref{fig:twilight_image_f_3},
+\ref{fig:twilight_image_f_2}, \ref{fig:twilight_image_f_4} and
+\ref{fig:twilight_image_f_5} except for the objects passing through
+the focal plane, the flatfielded images are flat: the shape that was
+present in the raw image disappeared. We also notice that the shape of
+the different flatfields are quite similar.
+
+\begin{figure}
+\centering
+\includegraphics[width=0.45\linewidth]{source_image_filter=3_t=50.png}
+\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=3_t=50.png}
+\caption{Left: Twilight image in Vi filter for 50s of exposure. Right:
+  Same image divided by the master flatfield. }
+\label{fig:twilight_image_f_3}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.45\linewidth]{source_image_filter=2_t=1.png}
+\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=2_t=1.png}
+\caption{Left: Twilight image in Bi filter for 1s of exposure. Right:
+  Same image divided by the master flatfield. }
+\label{fig:twilight_image_f_2}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.45\linewidth]{source_image_filter=4_t=5.png}
+\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=4_t=5.png}
+\caption{Left: Twilight image in R filter for 5s of exposure. Right:
+  Same image divided by the master flatfield. }
+\label{fig:twilight_image_f_4}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=0.45\linewidth]{source_image_filter=5_t=5.png}
+\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=5_t=5.png}
+\caption{Left: Twilight image in I filter for 50s of exposure. Right:
+  Same image divided by the master flatfield. }
+\label{fig:twilight_image_f_5}
+\end{figure}
+
+\subsubsection{Photon noise}
+\label{subsec:photon_noise}
+Using the same statistics we computed the photon noise maps for each
+filter (see Figure \ref{fig:photon_noise}) the average photon noise
+per pixel : it is on the order of 0.1 \% as we can see in Table
+\ref{tab:photon_noise}. These photon noises are compatible with the
+success of the experiment.
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.90\linewidth]{master_flat_3_var.png}
+  \caption{Map of the photon noise : small areas with high photon
+    noise are those where we masked data because of objects passing
+    through.}
+  \label{fig:photon_noise}
+\end{figure}
+
+\begin{table}
+  \centering
+  \caption{Table of the average photon noise in each filter.}
+  \begin{tabular}{lccccc}
+    \hline
+    \hline
+    Filter & Bi & Vi & R & I \\
+    \hline
+    Photon noise / signal (in \%) & 0.185 & 0.118  & 0.101 & 0.073 \\
+    \hline
+  \end{tabular}
+
+  \label{tab:photon_noise}
+\end{table} 
 
 \subsubsection{Instrumental PSF}
 \label{sec:PSF}
@@ -305,127 +426,6 @@ The LED spectral intensities are obtained by fitting the model above.
 \subsection{Flatfields}
 \label{sec:flatfields}
 
-\subsubsection{Descpription of the dataset and its analysis}
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.45\linewidth]{master_flat_Bi.png}
-  \includegraphics[width=0.45\linewidth]{master_flat_Vi.png}
-  \includegraphics[width=0.45\linewidth]{master_flat_R.png}
-  \includegraphics[width=0.45\linewidth]{master_flat_I.png}
-  \caption{Master flats for filter $Bi$ (up-left) and $Vi$ (up-right), $R$ (down-left) and $I$ (down-right)}
-  \label{fig:master_flats}
-\end{figure}
-
-During the second run, the 7th June 2016 we took 231 images of the
-twilight sky between 3 and 4 am with 5 different filters (GRISM,
-$B_i$, $V_i$, $R$, $I$) and for different exposure times in which we
-suppose the flux to be homogeneous. Important deviations from this
-model are caused by bright stars and planes going through images
-during the exposure. We mitigate the effect of those moving objects by
-building a master flat field from successive exposures by an iterative
-rejection procedure.
-
-In detail the flux measured in a pixel $i$ of an image $j$ for each
-filter is described by the following model of Poisson distribution:
-$f_{i,j} = K_jF_i + n_{i,j}$ where $F_i$ is the map of the quantum
-efficiency differences common to all images ($<F_i>_i = 1$), $K_j =
-<f_{i, j}>_i$ is the global image flux and depends on each image, and
-$n_{i, j} \approx N(0, \frac{1}{G}f_{i, j})$.  We want to obtain $F_i$
-in order to create a flat field of every image we have for a given
-filter.  A solution to the previous model is : $F_i =
-\frac{\sum_jK_j}{\sum_j \frac{K_j^2}{f_{i, j}}}$.
-
-But as it has been said previously, some $f_{i, j}$'s should not be
-part of our analysis.  The iterative rejection procedure is as follows
-:
-\begin{itemize}
-\item We caluculate $F_i$
-\item We mask $(i, j)$ couples for which $|f_{i, j} - K_jF_i| > 5\sigma$
-\item We compute again $F_i$ but with the masked dataset
-\item We continue until the mask doesn't change from one iteration to another.
-\end{itemize}
-We notice that ~100 images in the $B_i$ filter can not be used because
-we see in them a gradient we don't see in others. The source of this
-problem still has to be determined.  But we obtained a master flat
-field for each of $B_i$, $V_i$, $R$, and $I$ filters (Figure
-\ref{fig:master_flats}).
-
-\subsubsection{Validation of the analysis}
-In each band, we take an image of the twilight, we flat field it using
-the flat field previously computed and we compare both of them.  As we
-can see in Figures \ref{fig:twilight_image_f_3},
-\ref{fig:twilight_image_f_2}, \ref{fig:twilight_image_f_4} and
-\ref{fig:twilight_image_f_5} except for the objects passing through
-the focal plane, the flatfielded images are flat: the shape that was
-present in the raw image disappeared. We also notice that the shape of
-the different flatfields are quite similar.
-
-\begin{figure}
-\centering
-\includegraphics[width=0.45\linewidth]{source_image_filter=3_t=50.png}
-\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=3_t=50.png}
-\caption{Left: Twilight image in Vi filter for 50s of exposure. Right:
-  Same image divided by the master flatfield. }
-\label{fig:twilight_image_f_3}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.45\linewidth]{source_image_filter=2_t=1.png}
-\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=2_t=1.png}
-\caption{Left: Twilight image in Bi filter for 1s of exposure. Right:
-  Same image divided by the master flatfield. }
-\label{fig:twilight_image_f_2}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.45\linewidth]{source_image_filter=4_t=5.png}
-\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=4_t=5.png}
-\caption{Left: Twilight image in R filter for 5s of exposure. Right:
-  Same image divided by the master flatfield. }
-\label{fig:twilight_image_f_4}
-\end{figure}
-
-\begin{figure}
-\centering
-\includegraphics[width=0.45\linewidth]{source_image_filter=5_t=5.png}
-\includegraphics[width=0.45\linewidth]{comp_flat_image_filter=5_t=5.png}
-\caption{Left: Twilight image in I filter for 50s of exposure. Right:
-  Same image divided by the master flatfield. }
-\label{fig:twilight_image_f_5}
-\end{figure}
-
-\subsubsection{Photon noise}
-\label{subsec:photon_noise}
-Using the same statistics we computed the photon noise maps for each
-filter (see Figure \ref{fig:photon_noise}) the average photon noise
-per pixel : it is on the order of 0.1 \% as we can see in Table
-\ref{tab:photon_noise}. These photon noises are compatible with the
-success of the experiment.
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=0.90\linewidth]{master_flat_3_var.png}
-  \caption{Map of the photon noise : small areas with high photon
-    noise are those where we masked data because of objects passing
-    through.}
-  \label{fig:photon_noise}
-\end{figure}
-
-\begin{table}
-  \centering
-  \caption{Table of the average photon noise in each filter.}
-  \begin{tabular}{lccccc}
-    \hline
-    \hline
-    Filter & Bi & Vi & R & I \\
-    \hline
-    Photon noise / signal (in \%) & 0.185 & 0.118  & 0.101 & 0.073 \\
-    \hline
-  \end{tabular}
-
-  \label{tab:photon_noise}
-\end{table} 
 
 \subsection{Telescopic PSF studies}
 

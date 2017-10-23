@@ -34,6 +34,8 @@
 \maketitlepre
 
 \begin{abstract}
+The goal of the forecast work presented in this note is to study the impact of the LSST SN survey calibration, that is parametrized on one side as errors in the zeropoint of each filter ($\delta_{zp}$'s) and on the other as shifts in wavelength of each filter ($\delta_\lambda$'s) on the accuracy of the cosmology we will extract from LSST.
+It is also a part of a proposed analysis pipeline in which the standardization of the SNe Ia, their spectrophotometric evolution and the cosmology are fitted at the same time.
 \end{abstract}
 
 % Keywords are ignored in the LSST DESC Note style:
@@ -49,10 +51,8 @@
 
 % As we are getting closer to the first light of the Large Synoptic Survey Telescope, which will allow us to find and measure a huge amount of Type Ia Supernovae, the question of our preparation in order to extract the maximum of information on the dark energy from this future dataset is becoming crucial.
 % One of the must critical point is about how we are able to reduce the systematics of the survey, and especially the calibration uncertainties.
-The goal of the forecast work presented in this note is to study the impact of the LSST SN survey calibration, that is parametrized on one side as errors in the zeropoint of each filter ($\delta_{zp}$'s) and on the other as shifts in wavelength of each filter ($\delta_\lambda$'s) on the accuracy of the cosmology we will extract from LSST.
-It is also a part of a proposed analysis pipeline in which the standardization of the SNe Ia, their spectrophotometric evolution and the cosmology are fitted at the same time.
-In section \ref{sec::jla} we present the state of the art in SNe Ia survey analysis through the Joint Light-curve Analysis (CITATION ARTICLE MARC), analysis of which the cosmology group of the LPNHE is familiar to.
-It will show that even for for a dataset that contains 100 times statistics the calibration has became one on the highest concerns.
+%In section \ref{sec::jla} we present the state of the art in SNe Ia survey analysis through the Joint Light-curve Analysis (CITATION ARTICLE MARC), analysis of which the cosmology group of the LPNHE is familiar to.
+%It will show that even for for a dataset that contains 100 times statistics the calibration has became one on the highest concerns.
 In section \ref{sec::simulated_dataset} we rely on the work presented in (REF NOTE ON THE CADENCE OF ...) DESC note to highlight the observing cadence, the instrument and the observing conditions we use in this forecast work.
 In \ref{ssec:snsim} we also rely on the work presented in (REF SNSIM ...) to explain how SNe Ia light curves are simulated here and the complete the full description of the dataset that will be the input of our analysis.
 In \ref{sec::analysis_model} we focus on how the simulated dataset can be modelized using simultaneously the standardization of the SNe Ia, their photometric evolution through a SALT2-like model, and the cosmology.
@@ -66,13 +66,13 @@ We conclude in \ref{sec::conclusion}.
 
 % ----------------------------------------------------------------------
 
-\section{State of the art : JLA}
-\label{sec::jla}
+% \section{State of the art : JLA}
+% \label{sec::jla}
 
-Présentation des résultats JLA, description de la calibration \\
-Comparaison entre l'impact des systématiques et celui des incertitudes statistiques \\
-Ouverture sur la stat de LSST: super statistique gâchée si pas d'amélioration sur les systématiques, dont la principale est la calibration \\
-Demande une assez grosse discussion avec le groupe pour savoir ce que l'on met dans cette partie
+% Présentation des résultats JLA, description de la calibration \\
+% Comparaison entre l'impact des systématiques et celui des incertitudes statistiques \\
+% Ouverture sur la stat de LSST: super statistique gâchée si pas d'amélioration sur les systématiques, dont la principale est la calibration \\
+% Demande une assez grosse discussion avec le groupe pour savoir ce que l'on met dans cette partie
 
 % ----------------------------------------------------------------------
 
@@ -188,6 +188,8 @@ Finally, we show in Figure \ref{fig:sigmas} that in each layer the color $c$, th
 \section{Analysis Model}
 \label{sec::analysis_model}
 
+\subsection{Model details}
+\label{subsec::model_details}
 In a first time we decide to simplify our model by taking only the flux of our SNe at the day of maximum luminosity in restframe B-band.
 To describe simultaneously the flux emitted by all our generated sample of SNe in each band at DayMax we choose to work in astronomer magnitudes for the model to be more linear.
 We modelize the observer frame magnitude of the supernova at a redshift $z$ in a band $b$ as follows:
@@ -247,7 +249,7 @@ m_b = M_X + 25 + \mu(z, \theta_\text{cosmo}) + 2.5log_{10}(1+z) + P(\frac{\bar \
 
 % ----------------------------------------------------------------------
 
-\section{Calibration parameters}
+\subsection{Calibration parameters}
 \label{sec::calib_uncertainties}
 The core of this work is about how we handle the calibration errors and incorporate them in \ref{eq::model}.
 We choose to parametrize them in two different subsets of parameters:
@@ -256,6 +258,11 @@ We choose to parametrize them in two different subsets of parameters:
 There is one associated to each filter we use.
 \item $\delta \lambda$'s, which is the error made in observer frame on the wavelength position of each filter. 
 \end{itemize}
+
+Our model then becomes :
+\begin{equation}
+m_b = M_X + 25 + \mu(z, \theta_\text{cosmo}) + 2.5log_{10}(1+z) + P(\frac{\bar \lambda + \textcolor{red}{\delta\lambda_b}}{1+z}) + cQ(\frac{\bar \lambda + \textcolor{red}{\delta\lambda_b}}{1+z}) + {c\beta} + \mathcal{Z}_b + \textcolor{red}{\delta zp_b}
+\end{equation}
 These calibration parameters are assiociated to a calibration covariance matrix $C_s$.
 In the first order we could consider this matrix as diagonal:
 \begin{equation}
@@ -274,17 +281,22 @@ The state of the art concerning SNe Ia flux measurements consists in comparing t
 This way of measuring flux leads to the fact that if we make an error on the wavelength position of the filters, the flux integration of the standard will not be what we should expect and thus leads to an error on the zeropoint of the band.
 This phenomenon raise correlation terms between $\delta \lambda$ and $\delta zp$ for a same band.
 If we define $\frac{d \delta zp}{d \delta \lambda}$ as the change in zeropoint for $1 \AA$ of filter position error, we obtain it by comparing the integrated flux of a standard (P330E in this case) in a filter and in a shifted filter.
+
+In practice we measure a flux $\phi$ from a object of spectrum $S$ with an instrument of transmission $T$ as:
+\begin{equation}
+\phi = \int T(\lambda) S(\lambda) \lambda d\lambda + n
+\end{equation}
 We put the values in Table \ref{tab::calib_derivatives}, then $C_s$ becomes :
 \begin{equation}
 \label{eq::cov_calib}
 C_s = 
 \begin{pmatrix}
-   \sigma^2_{\delta zp_{g}} & 0 & 0 & (\frac{d \delta zp_g}{d \delta \lambda_g} \sigma_{\delta \lambda_g})^2 & 0 & 0 \\
-   0 & \ddots & 0 & 0 & \ddots & 0 \\
-   0 & 0 & \sigma^2_{\delta zp_{y}} & 0 & 0 & (\frac{d \delta zp_y}{d \delta \lambda_y} \sigma_{\delta \lambda_y})^2 \\
-   (\frac{d \delta zp_g}{d \delta \lambda_g} \sigma_{\delta \lambda_g})^2 & 0 & 0 & \sigma^2_{\delta\lambda_{g}} & 0 & 0 \\
-   0 & \ddots & 0 & 0 & \ddots & 0 \\
-   0 & 0 & (\frac{d \delta zp_y}{d \delta \lambda_y} \sigma_{\delta \lambda_y})^2 & 0 & 0 & \sigma^2_{\delta\lambda_{y}}
+  \sigma^2_{\delta zp_{g}} + (\sigma_{\delta\lambda_g} \frac{d\delta zp_g}{d\lambda_g})^2 & \ldots & 0 & \frac{d \delta zp_g}{d \delta \lambda_g} \sigma^2_{\delta \lambda_g} & \ldots & 0 \\
+   \vdots & \ddots & 0 & \vdots & \ddots & 0 \\
+   0 & 0 & \sigma^2_{\delta zp_{y}} + (\sigma_{\delta\lambda_y} \frac{d\delta zp_y}{d\lambda_y})^2 & 0 & 0 & \frac{d \delta zp_y}{d \delta \lambda_y} \sigma^2_{\delta \lambda_y} \\
+   \frac{d \delta zp_g}{d \delta \lambda_g} \sigma^2_{\delta \lambda_g} & \ldots & 0 & \sigma^2_{\delta\lambda_{g}} & \ldots & 0 \\
+   \vdots & \ddots & 0 & \vdots & \ddots & 0 \\
+   0 & 0 & \frac{d \delta zp_y}{d \delta \lambda_y} \sigma^2_{\delta \lambda_y} & 0 & 0 & \sigma^2_{\delta\lambda_{y}}
 \end{pmatrix}
 \end{equation}
 
@@ -305,7 +317,7 @@ C_s =
 
 % ----------------------------------------------------------------------
 
-\section{Model degeneracies}
+\subsection{Model degeneracies}
 \label{sec::model_deg}
 
 At this current stage our model have some degeneracies that we must get rid of.
@@ -340,7 +352,7 @@ In our case we add the following priors:
 
 % ----------------------------------------------------------------------
 
-\section{Error propagation}
+\subsection{Error propagation}
 \label{sec::linalg}
 
 If we linearize our model $\mathcal{M}$, we have:

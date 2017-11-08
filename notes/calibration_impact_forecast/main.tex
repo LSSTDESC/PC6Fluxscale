@@ -23,7 +23,6 @@
 % Add your own macros here:
 
 
-
 % 
 % ======================================================================
 
@@ -54,7 +53,7 @@ It is also a part of a proposed analysis pipeline in which the standardization o
 %In section \ref{sec::jla} we present the state of the art in SNe Ia survey analysis through the Joint Light-curve Analysis (CITATION ARTICLE MARC), analysis of which the cosmology group of the LPNHE is familiar to.
 %It will show that even for for a dataset that contains 100 times statistics the calibration has became one on the highest concerns.
 In section \ref{sec::simulated_dataset} we rely on the work presented in (REF NOTE ON THE CADENCE OF ...) DESC note to highlight the observing cadence, the instrument and the observing conditions we use in this forecast work.
-In \ref{ssec:snsim} we also rely on the work presented in (REF SNSIM ...) to explain how SNe Ia light curves are simulated here and the complete the full description of the dataset that will be the input of our analysis.
+In \ref{ssec::snsim} we also rely on the work presented in (REF SNSIM ...) to explain how SNe Ia light curves are simulated here and the complete the full description of the dataset that will be the input of our analysis.
 In \ref{sec::analysis_model} we focus on how the simulated dataset can be modelized using simultaneously the standardization of the SNe Ia, their photometric evolution through a SALT2-like model, and the cosmology.
 In \ref{sec::calib_uncertainties} we explain how the calibration uncertainties are modelized and how they fit into the the model presented in \ref{sec::analysis_model}.
 Emphasis will be put on how the two different sets of calibration parameters are connected and how it shapes the calibration covariance matrix, which will be expressed.
@@ -62,7 +61,7 @@ Finaly in section \ref{sec::results} we show how we quickly compute the performa
 In particular we show the example of the impact of the constrains on the calibration that the STARDICE experiment will put.
 We also show the results given by this study trained on the JLA dataset to proove its reliability.
 In \ref{sec::discussion} we discuss the results and compare them to those we obtain without taking into account the training of the SNe Ia spectrophotometric model.
-We conclude in \ref{sec::conclusion}.
+We conclude in \ref{sec::conclusions}.
 
 % ----------------------------------------------------------------------
 
@@ -158,11 +157,6 @@ The repartition in reshift of the simulated SNe Ia is shown in Figure \ref{fig:z
 \end{figure}
 For each type of survey, we show in Figure \ref{fig:lc_examples} that the simulated light curves are well constrained.
 
-
-Le machin a été produit par SnSim : montrer les jolies LC; très très brève description de SnSim: c'est rapide et c'est chouette \\
-Montrer la distribution en redshift des SNe Ia bien mesurées en utilisant les la stratégie d'observation de \ref{subsec::cadence} \\
-Plots d'évolution de $\sigma_C$ et $\sigma_{X1}$
-
 \begin{figure*}[t]
 \begin{center}
 \subfigure[$z = 0.06$]{\includegraphics[width=0.48\linewidth]{lc_sn_z006.png}}
@@ -190,15 +184,23 @@ Finally, we show in Figure \ref{fig:sigmas} that in each layer the color $c$, th
 
 \subsection{Model details}
 \label{subsec::model_details}
-In a first time we decide to simplify our model by taking only the flux of our SNe at the day of maximum luminosity in restframe B-band.
-To describe simultaneously the flux emitted by all our generated sample of SNe in each band at DayMax we choose to work in astronomer magnitudes for the model to be more linear.
+Altough our simulated dataset gives us values among light curves for each detected SN Ia, we decide to implement in our model only the value of the flux in each band for each supernova at the day of maximum luminosity in the restframe $B$ band (hereafter DayMax), interpolated using the \code{SALT2} model.
+This means that for the moment we don't take into account the time dimension of the spectrophotometric evolution of the SNe Ia. this will be done in an upgrade of this work.
+The flux of a given SN Ia measured at DayMax in a band $b$ can be modelized as follows:
+\begin{equation}
+\varphi_b = \frac{1}{1+z} \times \frac{\varphi_0}{10^{10}d_L^2(z, \theta_\text{cosmo})}\times \int \lambda S(\lambda) T_b(\lambda) d\lambda
+\end{equation}
+Where $z$, $d_L$ and $\varphi_0$ are respectively the redshift, the luminosity distance and the spectrum normalization factor of the given supernova,
+$\theta_\text{cosmo}$ is the vector of the cosmological parameters (depending on the model we choose to use),
+$S(\lambda)$ is the SED of a standard SN Ia that describes its restframe spectrophotometric evolution with wavelength
+and $T_b(\lambda)$ is the troughput of the band $b$ of the detector.
+To describe simultaneously the flux emitted by all our generated sample of SNe in each band at DayMax we choose to work in astronomer magnitudes ($m=-2.5 log\varphi$) for the model to be more linear.
 We modelize the observer frame magnitude of the supernova at a redshift $z$ in a band $b$ as follows:
 \begin{equation}
 \label{eq::raw_model}
  m_b = M_X + 25 + \mu(z, \theta_\text{cosmo}) + 2.5log_{10}(1+z) - 2.5log(\int \lambda S(\lambda) T_b(\lambda) d\lambda) 
 \end{equation}
-where $M_X$ is the spectrum normalization factor in astronomer logarithm, $\mu(z, \theta_\text{cosmo})$ is its distance modulus related to the luminosity distance $d_L$ as $\mu(z, \theta_\text{cosmo}) = 5log_{10}(d_L)$.
-$S(\lambda)$ is the SED of a standard SN Ia that describes its restframe spectrophotometric evolution with wavelength and $T(\lambda)$ is the instrument transmission.
+where $M_X = -2.5 log(\varphi_0)$, $\mu(z, \theta_\text{cosmo})$ is its distance modulus related to the luminosity distance $d_L$ as $\mu(z, \theta_\text{cosmo}) = 5log_{10}(d_L)$.
 Because of the high statistics brought by the LSST SN survey and its good coverage in a redshift range between $z=0.05$ and $z=0.9$ and to enhance the linearity of our model, we choose to perform a Taylor expansion around the mean position of the passband:
 
 \begin{equation}
@@ -216,7 +218,7 @@ If we choose $\bar \lambda$ to be:
 
 The first order terms are set to zero, so we have:
 \begin{equation}
-\int \lambda S(\lambda) T_b(\lambda) d\lambda = \int \lambda S(\lambda) T_b(\lambda) d\lambda
+\int \lambda S(\lambda) T_b(\lambda) d\lambda = S(\bar\lambda) \times \int \lambda T_b(\lambda) d\lambda
 \end{equation}
 
 Thus our model in eq \ref{eq::raw_model} becomes:
@@ -236,7 +238,7 @@ Incorporated to the model it gives:
 m_b = M_X + 25 + \mu(z, \theta_\text{cosmo}) + 2.5log_{10}(1+z) + P(\frac{\bar \lambda}{1+z}) + cQ(\frac{\bar \lambda}{1+z})+ \mathcal{Z}_b
 \end{equation}
 
-where the $(1+z)^{-1}$ factors account for the switch to observer frame and $c$ is the color associated to each supernova.
+where $c$ is the color associated to each supernova.
 
 
 Once the spectrophotometric model has been correctly parametrized, we have to add the standardisation parameters that will ensure the smallest dispersion of our dataset.
@@ -251,7 +253,7 @@ m_b = M_X + 25 + \mu(z, \theta_\text{cosmo}) + 2.5log_{10}(1+z) + P(\frac{\bar \
 
 \subsection{Calibration parameters}
 \label{sec::calib_uncertainties}
-The core of this work is about how we handle the calibration errors and incorporate them in \ref{eq::model}.
+The core of this work is about the way we handle the calibration errors and incorporate them in \ref{eq::model}.
 We choose to parametrize them in two different subsets of parameters:
 \begin{itemize}
 \item $\delta zp$'s, that takes into account the error we make on the normalization of the transmission in each band.
@@ -266,37 +268,83 @@ m_b = M_X + 25 + \mu(z, \theta_\text{cosmo}) + 2.5log_{10}(1+z) + P(\frac{\bar \
 These calibration parameters are assiociated to a calibration covariance matrix $C_s$.
 In the first order we could consider this matrix as diagonal:
 \begin{equation}
-C_s = 
+C_{s1} = 
 \begin{pmatrix}
-   \sigma^2_{\delta zp_{g}} & \ & \ & \ & \ & \ \\
+   \sigma^2_{zp_{g}} & \ & \ & \ & \ & \ \\
    \ & \ddots & \ & \ & \ & \ \\
-   \ & \ & \sigma^2_{\delta zp_{y}} & \ & \ & \ \\
-   \ & \ & \ & \sigma^2_{\delta\lambda_{g}} & \ & \ \\
+   \ & \ & \sigma^2_{zp_{y}} & \ & \ & \ \\
+   \ & \ & \ & \sigma^2_{\lambda_{g}} & \ & \ \\
    \ & \ & \ & \ & \ddots & \ \\
-   \ & \ & \ & \ & \ & \sigma^2_{\delta\lambda_{y}}
+   \ & \ & \ & \ & \ & \sigma^2_{\lambda_{y}}
 \end{pmatrix}
 \end{equation}
 But it is obvious that non-diagonnal terms should rise depending on the calibration strategy.
 The state of the art concerning SNe Ia flux measurements consists in comparing their flux directly with calibrated astrophysical standards.
-This way of measuring flux leads to the fact that if we make an error on the wavelength position of the filters, the flux integration of the standard will not be what we should expect and thus leads to an error on the zeropoint of the band.
-This phenomenon raise correlation terms between $\delta \lambda$ and $\delta zp$ for a same band.
-If we define $\frac{d \delta zp}{d \delta \lambda}$ as the change in zeropoint for $1 \AA$ of filter position error, we obtain it by comparing the integrated flux of a standard (P330E in this case) in a filter and in a shifted filter.
-
-In practice we measure a flux $\phi$ from a object of spectrum $S$ with an instrument of transmission $T$ as:
+We suppose that the zeropoint of a band $b$ is obtained using the flux measurement of this calibrated astrophysical standard, which is modelized as:
 \begin{equation}
-\phi = \int T(\lambda) S(\lambda) \lambda d\lambda + n
+zp_b = \int T_b(\lambda) S_{std}(\lambda) d\lambda + n_b
+\end{equation}
+Where $T$ is the transmission of the instrument, $S_{std}$ is the spectrum of the astrophysical standard and $n_b$ is a random noise whith $cov(n_b) = \sigma_{zp_b}^2$.
+This way of measuring flux leads to the fact that if we make an error on the wavelength position of the filters, the flux integration of the standard will not be what we should expect and thus leads to an error on the zeropoint of the band.
+In fact we have:
+\begin{equation}
+\begin{split}
+zp_b &= \int \bar T_b(\lambda) S_{std}(\lambda) d\lambda + n_b + \frac{\partial \int{T_b(\lambda)S(\lambda)d\lambda}}{\partial \bar \lambda}\\
+&= \bar{zp}_b + e_{zp_b} + \frac{\partial zp_b}{\partial \bar \lambda}\delta\bar\lambda
+\end{split}
+\end{equation}
+We then have:
+\begin{equation}
+\begin{pmatrix}
+  zp \\
+  \bar\lambda
+\end{pmatrix}
+=
+\begin{pmatrix}
+  1 & \frac{\partial zp}{\partial \lambda} \\
+  0 & 1
+\end{pmatrix}
+\begin{pmatrix}
+  e_{zp} \\
+  \delta\bar\lambda
+\end{pmatrix}
++
+\begin{pmatrix}
+  \bar{zp} \\
+  0
+\end{pmatrix}
+\end{equation}
+From this phenomenon raise correlation terms between $\delta \lambda$ and $\delta zp$ for a same band.
+We define $\frac{\partial zp}{\partial \lambda}$ as the change in zeropoint for $1 \AA$ of filter position error, obtained by comparing the integrated flux of an astrophysical standard (P330E in this case) in a reference filter and in a shifted filter.
+We have:
+\begin{equation}
+C_s = cov
+\begin{pmatrix}
+  zp \\
+  \bar\lambda
+\end{pmatrix}
+=
+\begin{pmatrix}
+  1 & \frac{\partial zp}{\partial \lambda} \\
+  0 & 1
+\end{pmatrix}
+C_{s1}
+\begin{pmatrix}
+  1 & 0 \\
+  \frac{\partial zp}{\partial \lambda} & 1
+\end{pmatrix}
 \end{equation}
 We put the values in Table \ref{tab::calib_derivatives}, then $C_s$ becomes :
 \begin{equation}
 \label{eq::cov_calib}
 C_s = 
 \begin{pmatrix}
-  \sigma^2_{\delta zp_{g}} + (\sigma_{\delta\lambda_g} \frac{d\delta zp_g}{d\lambda_g})^2 & \ldots & 0 & \frac{d \delta zp_g}{d \delta \lambda_g} \sigma^2_{\delta \lambda_g} & \ldots & 0 \\
+  \sigma^2_{ zp_{g}} + (\sigma_{\lambda_g} \frac{\partial zp_g}{d\lambda_g})^2 & \ldots & 0 & \frac{\partial zp_g}{\partial \lambda_g} \sigma^2_{ \lambda_g} & \ldots & 0 \\
    \vdots & \ddots & 0 & \vdots & \ddots & 0 \\
-   0 & 0 & \sigma^2_{\delta zp_{y}} + (\sigma_{\delta\lambda_y} \frac{d\delta zp_y}{d\lambda_y})^2 & 0 & 0 & \frac{d \delta zp_y}{d \delta \lambda_y} \sigma^2_{\delta \lambda_y} \\
-   \frac{d \delta zp_g}{d \delta \lambda_g} \sigma^2_{\delta \lambda_g} & \ldots & 0 & \sigma^2_{\delta\lambda_{g}} & \ldots & 0 \\
+   0 & 0 & \sigma^2_{ zp_{y}} + (\sigma_{\lambda_y} \frac{\partial zp_y}{\partial \lambda_y})^2 & 0 & 0 & \frac{\partial zp_y}{\partial \lambda_y} \sigma^2_{ \lambda_y} \\
+   \frac{\partial zp_g}{\partial \lambda_g} \sigma^2_{ \lambda_g} & \ldots & 0 & \sigma^2_{\lambda_{g}} & \ldots & 0 \\
    \vdots & \ddots & 0 & \vdots & \ddots & 0 \\
-   0 & 0 & \frac{d \delta zp_y}{d \delta \lambda_y} \sigma^2_{\delta \lambda_y} & 0 & 0 & \sigma^2_{\delta\lambda_{y}}
+   0 & 0 & \frac{\partial zp_y}{\partial \lambda_y} \sigma^2_{ \lambda_y} & 0 & 0 & \sigma^2_{\lambda_{y}}
 \end{pmatrix}
 \end{equation}
 
@@ -309,7 +357,7 @@ C_s =
 \hline
   & $g$ & $r$ & $i$ & $z$ & $y$ \\
 \hline 
-  $\frac{d \delta zp}{d \delta \lambda}$ $(mmag/\AA)$& 0.026 & 0.18 & 0.24 & 0.23 & 0.22\\
+  $\frac{\partial\delta zp}{\partial\delta \lambda}$ $(mmag/\AA)$& 0.026 & 0.18 & 0.24 & 0.23 & 0.22\\
 \hline
 \end{tabular}
 \end{center}
@@ -343,7 +391,7 @@ C =
 In our case we add the following priors:
 \begin{itemize}
 \item The spectrum normalization, to cut degeneracy with the distance modulus $\mu$ that could increase while $M_X$ decrease.
-\item The spectrum color, that is degenerate with the color law ??????????????
+\item The spectrum color, that is degenerated with the color law.
 \item The fact that the color law is fixed at $\lambda_B$ and $\lambda_V$ respectively mean wavelength of the $B$ and $V$-bands
 \item We fix the dispersion of the $M_X$'s at 14\% because otherwise we have degeneracies with the distance moduli.
 \item Since we use a $w_0w_a$ cosmology, $\theta_\text{cosmo} = \{ \Omega_m$, $\Omega_k$, $w_0$, $w_a$, $H_0$, $\Omega_bh^2 \}$, we add a Planck prior, extracted from (REF REF REF Planck 2015) results, which brings us the information on $H_0$ and $\Omega_k$ we wouldn't get with the SNe Ia only.
@@ -413,6 +461,7 @@ In a first time we vary a same value for all the $\sigma_{\delta zp}$'s while we
 We compute the $FoM$ for each common value of the $\sigma_{\delta zp}$'s, we present this result in Figure \ref{fig:fom_zp}.
 On this figure we an see that a transition in the level of performances occurs around $\sigma_{\delta zp} = 10^{-3}$.
 If we consider that the current uncertainties on the $\delta zp$'s is around $5 \times 10^{-3}$ (JLA), we note that we need improvements to extract the most information from the statistics granted by one year of the survey.
+When doing the same analysis with the filter position parameters we notice that there is no evolution of the performances when improving the accuracy of the $\delta\lambda$'s. This is explained by the fact that the filters positions are calibrated by the SNe Ia as we can see in figure \ref{fig:delta_lambda_ev}.
 
 \begin{figure}[ht]
   \centering
@@ -421,35 +470,36 @@ If we consider that the current uncertainties on the $\delta zp$'s is around $5 
   \label{fig:fom_zp}
 \end{figure}
 
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.7\linewidth]{a_posteriori_sigmas.png}
+  \caption{Evolution of the uncertainty on the filter position extracted from the free parameters covariance matrix $H$ with the uncertainty ont the filter position as entry parameters in the measurements covariance matrix $C_s$. We can see that thety are both identical below $\approx 10^{-1}$, from this value the output unertainty on the filter position stays at $10^{-1}$}
+  \label{fig:delta_lambda_ev}
+\end{figure}
+
 % ----------------------------------------------------------------------
 
 \section{Discussion}
-\label{sec:discussion}
+\label{sec::discussion}
 As a parallel work, we wanted to study what would be this results without the training of our spectrophotometric model, that is by not considering $\theta_P$ as free parameters.
 The figure \ref{fig:fom_wout_training} shows that, compared to what we obtain with the training, we are making a large overestimation of the performances of the survey, and we would think that the calibration does not need to be that precise. That is why we have to take care with handling the spectrophotometric model.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\linewidth]{FoM_20k+training.png}
   \caption{Evolution of the $FoM$ with the uncertainty on the $\delta zp$'s with and without the spectrophotometric model training}
-  \label{fig:fom_zp}
+  \label{fig:fom_wout_training}
 \end{figure}
 
 
 % ----------------------------------------------------------------------
 
 \section{Conclusions}
-\label{sec:conclusions}
+\label{sec::conclusions}
 
-Here's a summary of what we just reported.
-
-We can draw the following well-organized and neatly-formatted conclusions:
-\begin{itemize}
-  \item This is important.
-  \item We can measure some number with some precision.
-  \item This has some implications.
-\end{itemize}
-
-Here are some parting thoughts.
+We prooved in this study that we can expose a relation between the calibration  parameters uncertainties and the performances of a LSST SN survey by using a model fitting simultaneously the spectrophotometric evolution of the SNe Ia, the cosmology and the calibration parameters.
+We have also shown the necessity to take into account the trainging of the spectrophotmetric model over the dataset to obtain realistic results from this type of study.
+The exposed relation highlights the necessity to calibrate the troughput of our filters below the $10^{-3}$ level in order to exploit at a good level the increase of statistics that LSST will bring.
+Finaly we found that the uncertainty on the filters positions shows to have no effect on the performances since it is calibrated by the well constrained dataset. This particular point will be investigated in a second iteration of this work, in a first time by adding an uncertainty on the redshift of each SN and in a second time by adding the phase dimension of the spectrophotometric evolution of the SNe Ia.
 
 
 % ----------------------------------------------------------------------

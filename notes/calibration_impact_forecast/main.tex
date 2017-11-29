@@ -33,9 +33,9 @@
 \maketitlepre
 
 \begin{abstract}
-We study the impact of the LSST SN survey calibration, that is parametrized on one side as errors in the zeropoint of each filter ($\delta_{zp}$'s) and on the other as shifts in wavelength of each filter ($\delta_\lambda$'s) on the accuracy of the cosmology we will extract from LSST.
+We study the impact of the LSST SN survey calibration, parametrized on one side as random errors in the zeropoint of each filter ($\delta_{zp}$'s) and on the other as shifts in wavelength of each filter ($\delta_\lambda$'s), on the accuracy of the cosmology we will extract from LSST.
 We perform a set of simulation of a typical LSST SNe Ia survey.
-Then the standardization of the SNe Ia, their spectrophotometric evolution, the cosmology and the calibration parameters are fitted at the same time to capture all possible interactions between the parameters.
+The standardization of the SNe Ia, their spectrophotometric evolution, the cosmology and the calibration parameters are fitted at the same time to capture all possible interactions between the parameters.
 We show that, when all parameters are left free, a nearly complete degeneracy remains between zero points and cosmology, so that accurate external knoledge is mandatory at $1mmag$.
 \end{abstract}
 
@@ -50,14 +50,15 @@ We show that, when all parameters are left free, a nearly complete degeneracy re
 \section{Introduction}
 \label{sec:intro}
 
-Our current knowledge of the dark energy is constrained by the SNe Ia surveys and their analysis, particulary the Joint Light-curves Analysis \cite{1401.4064} which put a constrain of 6\% on the dark energy state parameter $w$.
-This uncertainty is equivalently dominated by the statistics and the systematics assiociated to these surveys and among the systematics the most important arise from the uncertainty on the calibration of the survey.
-With LSST, the statistics will increase by a factor between 10 and 100. In this context the goal of this work is to study the impact of the calibration uncertainties on the performances of a LSST-like survey composed of a wide and a deep layer according to the work presented in \cite{SN-CADENCE} DESC note, by simulating a typical LSST SNe Ia dataset using \code{SnSim} and fitting a model including the standardization parameters, their spectrophotometric evolution, the cosmology and the calibration parameters at the same time to the simulated data. The performances are evaluated by the calculus of the Figure of Merit (FoM).
+Our current knowledge of the dark energy is constrained by the SNe Ia surveys and their analysis, the most recent being the analysis of the SN light curves from Pan-STARRS1 (\cite{1710.00845}), which gives the most recent measurement of dark energy to date with $w = -1.031 \pm 0.040$ in a $w\text{CDM}$ model and $w_0 = -1.011 \pm 0.087$ and $w_a = -0.215 \pm 0.402$ for the $w_0w_a\text{CDM}$ model. These uncertainties are equivalently dominated by the statistics and the systematics assiociated to these surveys and among the systematics the most important arise from the uncertainty on the calibration of the survey.
+With LSST, the statistics will increase by a factor between 10 and 30.
+
+In this context the goal of this work is to study the impact of the calibration uncertainties on the performances of a LSST-like survey composed of a wide and a deep layer according to the work presented in \cite{SN-CADENCE} DESC note; we simulate a typical LSST SNe Ia dataset using \code{SnSim} and fit a model including the standardization parameters, their spectrophotometric evolution, the cosmology and the calibration parameters at the same time to the simulated data. The performances are evaluated by the calculus of the Figure of Merit (FoM) as a function of a priori knowledge on the calibration parameters.
 
 In section \ref{sec::simulated_dataset} we highlight the observing conditions we use in this forecast work to do the simulation of the SNe Ia and we check the quality of the light curves obtained.
-We present our analysis model for the simulated dataset and the way we handle the calibration uncertainties in \ref{sec::analysis_model}.
+We present our analysis model for the simulated dataset and the way we handle the calibration uncertainties in §\ref{sec::analysis_model}.
 We present our results concerning the performances of the survey for different calibration strategies in section .
-In \ref{sec::discussion} we discuss the results and we conclude concerning the calibration minimal specifications in \ref{sec::conclusions}.
+In §\ref{sec::discussion} we discuss the results and we conclude concerning the calibration minimal specifications in §\ref{sec::conclusions}.
 
 % ----------------------------------------------------------------------
 
@@ -79,13 +80,13 @@ In \ref{sec::discussion} we discuss the results and we conclude concerning the c
 
 The LSST SN survey will be splitted in two different layers:
 \begin{itemize}
-\item A wide survey that will be composed of small time exposures over a large fraction of the sky.
+\item A wide survey that will be composed of short exposure times over a large fraction of the sky.
   It would allow to discover a large number of nearby SNe Ia.
 \item A deep survey inwhich a small number of fields will be observed but with high exposure times to ensure we get distant SNe Ia.
 \end{itemize}
 The exact cadence of the LSST SN survey is still in discussion and the results that will be presented below are likely to change.
-At the moment the LSST Operations Simulator (\code{OpSim}) last results (\code{Minion\_1016}) are pessimistic: according to \cite{SN-CADENCE} the cadence of the wide and the exposure times of the deep layer are too small.
-For the moment we rely on the work presented in (REF REF REF papier cadence), which proposes to use a rolling cadence for the wide survey and increase the exposure times of the deep. The nominal scenarii for the wide and the deep layer shown in \cite{SN-CADENCE} are detailed in Table \ref{tab:nominal_scenario_wide} and \ref{tab:nominal_scenario_DDF} respectively.
+At the moment the LSST Operations Simulator (\code{OpSim}) last results (\code{Minion\_1016}) are pessimistic  according to \cite{SN-CADENCE}.
+We rely on the work presented in (REF REF REF papier cadence), which proposes to use a rolling cadence for the wide survey and increase the exposure times of the deep. The nominal scenarii for the wide and the deep layer shown in \cite{SN-CADENCE} are detailed in Table \ref{tab:nominal_scenario_wide} and \ref{tab:nominal_scenario_DDF} respectively.
 
 \begin{table*}[t]
 \begin{center}
@@ -125,17 +126,17 @@ Target amplitude SNR & $>25$ & $>60$ & $>35$ & $>20$ \\
 \end{center}
 \end{table*}
 
-In our foecast we use a regular cadence based on the previous data. We suppose that every epoch will be performed and that we will suffer no lost due to bad weather for example.
+In our forecast we use a regular cadence based on the previous data. We suppose that we will suffer no loss of epoch due to bad weather for example.
 
 \subsection{Instrument Model and Observing conditions}
 
-Concerning the instrument model and still relying on \cite{SN-CADENCE} we use the most recent model from \cite{SMTN-002} (SMTN-002). The previous model, described in \cite{LSE-40} (LSE-40) has been revised and the new troughput is 40\% lower  in SMTN-002.
-Concerning the observing conditions, we use median conditions (same for all epoch), we can see these values for each filter in the Figure \ref{fig:zp} extracted from \cite{SN-CADENCE}.
+We use the most recent model from \cite{SMTN-002} (SMTN-002). The previous model, described in \cite{LSE-40} (LSE-40) has been revised and the new troughput is 40\% lower  in SMTN-002.
+We use median observing conditions (same for all epoch) for each filter in Figure \ref{fig:zp}.
 
 \begin{figure}[t]
 \begin{center}
 \includegraphics[width=\linewidth]{lsst_model_summary.pdf}
-\caption{Parameters of the survey simulation : from left to right and top to bottom we have : zero-points, median seeing, dark sky mags and limiting mags, from \cite{SN-CADENCE} in each $grizy$ band.}
+\caption{Parameters of the survey simulation : from left to right and top to bottom we have : zero-points, median seeing, brightness of the background sky (dark time) and survey limiting magnitudes, this Figure is reproduced from \cite{SN-CADENCE} in each $grizy$ band.}
 \label{fig:zp}
 \end{center}
 \end{figure}
@@ -162,7 +163,7 @@ In Figure \ref{fig:lc_examples} we show that in two extrem cases of SNe Ia, one 
 \end{center}
 \end{figure*}
 
-Finally, we show in Figure \ref{fig:sigmas} that in each layer the color $c$, the time of maximum luminosity $t_0$ and the stretch of the simulated SNe Ia are well constrained over their redshift range.
+Finally, we show in Figure \ref{fig:sigmas} that in each layer the color $c$, the time of maximum luminosity $t_0$ and the stretch of the simulated SNe Ia are well measured over the entire redshift range in both survey layers.
 
 \begin{figure*}[t]
 \begin{center}
@@ -180,67 +181,71 @@ Finally, we show in Figure \ref{fig:sigmas} that in each layer the color $c$, th
 
 \subsection{Model details}
 \label{subsec::model_details}
-Our model has to be representative of the errors, meaning it has the same number of degrees of freedom as the typical model that will be use for the analysis of the LSST SNe Ia survey data.
-This also have to be a light-weighted simulation to allow us to iterate over a large set of different entry parameters.
-Then our simulated sample contains only photometric data and no SN Ia spectra.
+We want our model to be representative of a real analysis, while avoiding the complexity and numertical clumsiness of a complete spectroscopic model.
+However, to avoid the need of including spectra in our simulation, we will mimick their effect on broadband quantities.
+%Our model has to be representative of the errors, meaning it has the same number of degrees of freedom as the typical model that will be use for the analysis of the LSST SNe Ia survey data.
+%This also have to be a light-weighted simulation to allow us to iterate over a large set of different entry parameters.
+%Then our simulated sample contains only photometric data and no SN Ia spectra.
 The calibration uncertainties induce redshift dependent errors on magnitude and color.
 It is thus of primary importance to account for all the spectral effects in order to accurately propagate calibration uncertainties.
 On the contrary light-curve shapes (stretch) is expected to be well constrained thanks to the good sampling (\ref{ssec::snsim}), and calibration uncertainties do not strongly impact shapes (e.g. \cite{1401.4064} Figure 6).
-We then choose to skip the time dependant part to simplify the simulation, by only using the flux of each measured SN Ia in each used band, interpolated at the day of maximum luminosity in the restframe $B$ band (hereafter DayMax).
+We then choose to skip the time dependant part, only modeling the flux of each measured SN Ia in each used band, interpolated at the day of maximum luminosity in the restframe $B$ band (hereafter DayMax).
 Then the flux of a given SN Ia measured at DayMax in a band $b$ can be modelized as follows:
 
 \begin{equation}
-  \varphi_b = \frac{1}{1+z} \times \frac{10^{-10}}{d_L^2(z, \theta_\text{c})}\times \int \lambda S(\frac{\lambda}{1+z}) T_b(\lambda) d\lambda \text{ ,}
+\label{eq::flux_model}
+\varphi_b = \frac{1}{1+z} \times \frac{10^{-10}}{d_L^2(z, \theta_\text{c})}\times \int \lambda S(\frac{\lambda}{1+z}) T_b(\lambda) d\lambda \text{ ,}
 \end{equation}
 where $z$ and $d_L$ are respectively the redshift and the luminosity distance of the given supernova,
 $\theta_\text{c}$ is the vector of the cosmological parameters (depending on the model we choose to use),
 $S(\frac{\lambda}{1+z})$ is the SED of a standard SN Ia that describes its restframe spectrophotometric evolution with wavelength
 and $T_b(\lambda)$ is the transmission of the detector in a band $b$.
-To describe simultaneously the flux emitted by all our generated sample of SNe in each band at DayMax we choose to work in magnitudes ($m=-2.5 log\varphi$) for the model to be more linear.
-The observer frame magnitude of a supernova at a redshift $z$ in a band $b$ as follows:
+% To describe simultaneously the flux emitted by all our generated sample of SNe in each band at DayMax we choose to work in magnitudes ($m=-2.5 log\varphi$) for the model to be more linear.
+% The observer frame magnitude of a supernova at a redshift $z$ in a band $b$ as follows:
+Translating eq \ref{eq::flux_model} to magnitudes:
 \begin{equation}
 \begin{split}
 \label{eq::raw_model}
-m_b = &\mu(z, \theta_\text{c}) + 25 + 2.5log_{10}(1+z) \\
-&- 2.5log\int \lambda S(\lambda) T_b(\lambda) d\lambda \text{ ,}
+m_b = &\mu(z, \theta_\text{c}) + 25 + 2.5\log_{10}(1+z) \\
+&- 2.5\log_{10}\int \lambda S(\lambda) T_b(\lambda) d\lambda \text{ ,}
 \end{split}
 \end{equation}
-where $\mu(z, \theta_\text{c})$ is its distance modulus related to the luminosity distance $d_L$ as $\mu(z, \theta_\text{c}) = 5log_{10}(d_L)$.
-Then we perform a Taylor expansion around the mean position of the passband:
+where $\mu(z, \theta_\text{c})$ is its distance modulus related to the luminosity distance $d_L$ as $\mu(z, \theta_\text{c}) = 5\log_{10}(d_L)$.
+Then we perform a Taylor expansion around the central wavelength of the passband $\bar\lambda_b$:
 
 \begin{equation}
 \begin{split}
-\int \lambda S(\lambda) T_b(\lambda) d\lambda = \int \lambda \left( S(\bar\lambda_b ) +(\lambda - \bar\lambda_b )\frac{\partial S(\bar\lambda_b )}{\partial \lambda} \right) T_b(\lambda) d\lambda
+\int \lambda S(\lambda) T_b(\lambda) d\lambda \approx \int \lambda \left( S(\bar\lambda_b ) +(\lambda - \bar\lambda_b )\frac{\partial S(\bar\lambda_b )}{\partial \lambda} \right) T_b(\lambda) d\lambda \text{ .}
 %S(\bar\lambda_b ) \int \lambda T_b(\lambda) d\lambda + \frac{\partial S(\bar\lambda_b )}{\partial\lambda} \int \lambda (\lambda - \bar\lambda_b ) T_b(\lambda) d\lambda
 \end{split}
 \end{equation}
 If we choose $\bar\lambda_b $ to be:
 \begin{equation}
-  \bar\lambda_b  = \frac{\int \lambda^2 T_b(\lambda) d\lambda}{\int \lambda T_b(\lambda) d\lambda}
+  \bar\lambda_b  = \frac{\int \lambda^2 T_b(\lambda) d\lambda}{\int \lambda T_b(\lambda) d\lambda} \text{ .}
 \end{equation}
 The first order terms are set to zero, so we have:
 \begin{equation}
 \int \lambda S(\frac{\lambda}{1+z}) T_b(\lambda) d\lambda = S(\frac{\bar\lambda_b }{1+z}) \times \int \lambda T_b(\lambda) d\lambda
 \end{equation}
-Thus our model in eq \ref{eq::raw_model} becomes:          
+Our model in eq \ref{eq::raw_model} becomes:          
 \begin{equation}
-  m_b = \mu(z, \theta_\text{c}) + 25 + 2.5log_{10}(1+z) - 2.5 log_{10} S(\bar\lambda_b ) + \mathcal{Z}_b \text{ ,}
+  m_b = \mu(z, \theta_\text{c}) + 25 + 2.5\log_{10}(1+z) - 2.5 \log_{10} S(\bar\lambda_b ) + \mathcal{Z}_b \text{ ,}
 \end{equation}
-where $\mathcal{Z}_b = -2.5 log \int \lambda T_b(\lambda) d\lambda$ is the band zeropoint.
+where $\mathcal{Z}_b = -2.5 \log \int \lambda T_b(\lambda) d\lambda$ is the band zeropoint.
 
 As we will show later, care must be taken while modelizing the spectrophotometric evolution of the supernovae and its characterization shall remain free to evolve with the input data.
-We decompose $-2.5log_{10}S(\bar\lambda_b)$ on 3 different terms:
+We decompose $-2.5\log_{10}S(\bar\lambda_b)$ on 3 different terms:
 \begin{equation}
--2.5log_{10}S(\bar\lambda_b) = M_X + P(\frac{\bar\lambda_b}{1+z}) + cQ(\frac{\bar\lambda_b}{1+z}) \text{ ,}
+-2.5\log_{10}S(\bar\lambda_b) = M_X + P(\frac{\bar\lambda_b}{1+z}) + cQ(\frac{\bar\lambda_b}{1+z}) \text{ ,}
 \end{equation}
 where $P(\frac{\bar\lambda_b}{1+z})$ plays the role of the mean restframe spectrum of a "standard" SN Ia, through a decomposition over a third order Spline basis, $M_X$ is a normalization factor accounting for the restframe absolute luminosity of each SN and $Q(\frac{\bar\lambda_b}{1+z})$ is a color law accounting for the color variation of each SN with a polynomial of fourth degree.
 We also introduce here the color $c$ of each SN.
-Degeneracies rise between these different parameters, we will show how to handle them in \ref{ssec:model_deg}.
+%Degeneracies rise between these different parameters, we will show how to handle them in \ref{ssec:model_deg}.
 Incorporated to the model it gives:
 
 \begin{equation}
 \begin{split}
-m_b = &M_X + 25 + \mu(z, \theta_\text{c}) + 2.5log_{10}(1+z) \\
+m_b = &M_X + 25 + \mu(z, \theta_\text{c}) + 2.5\log_{10}(1+z) \\
 &+ P(\frac{\bar\lambda_b }{1+z}) + cQ(\frac{\bar\lambda_b }{1+z})+ \mathcal{Z}_b \text{ .}
 \end{split}
 \end{equation}
@@ -251,15 +256,44 @@ It incorporates to our model as follows:
 \begin{equation}
 \begin{split}
 \label{eq::model}
-m_b = &M_X + 25 + \mu(z, \theta_\text{c}) + 2.5log_{10}(1+z) \\
+m_b = &M_X + 25 + \mu(z, \theta_\text{c}) + 2.5\log_{10}(1+z) \\
 &+ P(\frac{\bar\lambda_b }{1+z}) + cQ(\frac{\bar\lambda_b }{1+z}) + \textcolor{red}{c\beta}+ \mathcal{Z}_b
 \end{split}
 \end{equation}
 
+At this stage degeneracies rise between these different parameters.
+The way to handle this degeneracies is to add priors to our model.
+If $J$ is the matrix of the derivatives  of our model with respect to all free parameters (columns) for all light curve amplitudes measured (lines), we can vertically add matrices to $J$ for each prior, corresponding to one or more "additionnal" measurements:
+\begin{equation}
+J =
+\begin{pmatrix}
+  J \\
+  J_\text{priors}
+\end{pmatrix} 
+\end{equation}
+
+In parallel, if $C$ is the covariance matrix of our measurements, we add diagonally the covariance matrix of the prior to $C$:
+\begin{equation}
+C =
+\begin{pmatrix}
+  C & 0 \\
+  0 & C_\text{priors}
+\end{pmatrix} 
+\end{equation}
+
+In our case we add the following priors:
+\begin{itemize}
+\item The spectrum normalization, to cut degeneracy with the distance modulus $\mu$ that could increase while $M_X$ decrease.
+\item The spectrum color, that is degenerated with the color law.
+\item The fact that the color law is fixed at $\lambda_B$ to 0 and at $\lambda_V$ to 1 respectively mean wavelength of the $B$ and $V$-bands
+\item We fix the dispersion of the $M_X$'s at 14\% because otherwise we have degeneracies with the distance moduli.
+\item Since we use a $w_0w_a$ cosmology, $\theta_\text{c} = \{ \Omega_m$, $\Omega_k$, $w_0$, $w_a$, $H_0$, $\Omega_bh^2 \}$, we add a Planck prior, extracted from Planck 2015 results(\cite{1502.01589}), which brings us the information on $H_0$ and $\Omega_k$ we wouldn't get with the SNe Ia only.
+\end{itemize}
+
 % ----------------------------------------------------------------------
 
 \subsection{Calibration parameters}
-\label{sec::calib_uncertainties}
+\label{subsec::calib_uncertainties}
 The core of this work is about the way we handle the calibration errors and incorporate them in \ref{eq::model}.
 We choose to parametrize them in two different subsets of parameters:
 \begin{itemize}
@@ -271,7 +305,7 @@ There is one associated to each filter we use.
 Our model then becomes :
 \begin{equation}
 \begin{split}
-m_b = & M_X + 25 + \mu(z, \theta_\text{c}) + 2.5log_{10}(1+z) + \mathcal{Z}_b \\
+m_b = & M_X + 25 + \mu(z, \theta_\text{c}) + 2.5\log_{10}(1+z) + \mathcal{Z}_b \\
 &+ P(\frac{\bar\lambda_b  + \textcolor{red}{\delta\lambda_b}}{1+z}) + cQ(\frac{\bar\lambda_b  + \textcolor{red}{\delta\lambda_b}}{1+z}) + {c\beta} + \textcolor{red}{\delta zp_b}
 \end{split}
 \end{equation}
@@ -361,37 +395,37 @@ C_s =
 
 % ----------------------------------------------------------------------
 
-\subsection{Model degeneracies}
-\label{ssec::model_deg}
+% \subsection{Model degeneracies}
+% \label{ssec::model_deg}
 
-At this current stage our model have some degeneracies that we must get rid of.
-The way to handle this degeneracies is to add priors to our model.
-If $J$ is the matrix of the derivatives  of our model with respect to all free parameters (columns) for all light curve amplitudes measured (lines), we can vertically add matrices to $J$ for each prior, corresponding to one or more "additionnal" measurements:
-\begin{equation}
-J =
-\begin{pmatrix}
-  J \\
-  J_\text{priors}
-\end{pmatrix} 
-\end{equation}
+% At this current stage our model have some degeneracies that we must get rid of.
+% The way to handle this degeneracies is to add priors to our model.
+% If $J$ is the matrix of the derivatives  of our model with respect to all free parameters (columns) for all light curve amplitudes measured (lines), we can vertically add matrices to $J$ for each prior, corresponding to one or more "additionnal" measurements:
+% \begin{equation}
+% J =
+% \begin{pmatrix}
+%   J \\
+%   J_\text{priors}
+% \end{pmatrix} 
+% \end{equation}
 
-In parallel, if $C$ is the covariance matrix of our measurements, we add diagonally the covariance matrix of the prior to $C$:
-\begin{equation}
-C =
-\begin{pmatrix}
-  C & 0 \\
-  0 & C_\text{priors}
-\end{pmatrix} 
-\end{equation}
+% In parallel, if $C$ is the covariance matrix of our measurements, we add diagonally the covariance matrix of the prior to $C$:
+% \begin{equation}
+% C =
+% \begin{pmatrix}
+%   C & 0 \\
+%   0 & C_\text{priors}
+% \end{pmatrix} 
+% \end{equation}
 
-In our case we add the following priors:
-\begin{itemize}
-\item The spectrum normalization, to cut degeneracy with the distance modulus $\mu$ that could increase while $M_X$ decrease.
-\item The spectrum color, that is degenerated with the color law.
-\item The fact that the color law is fixed at $\lambda_B$ and $\lambda_V$ respectively mean wavelength of the $B$ and $V$-bands
-\item We fix the dispersion of the $M_X$'s at 14\% because otherwise we have degeneracies with the distance moduli.
-\item Since we use a $w_0w_a$ cosmology, $\theta_\text{c} = \{ \Omega_m$, $\Omega_k$, $w_0$, $w_a$, $H_0$, $\Omega_bh^2 \}$, we add a Planck prior, extracted from Planck 2015 results(\cite{1502.01589}), which brings us the information on $H_0$ and $\Omega_k$ we wouldn't get with the SNe Ia only.
-\end{itemize}
+% In our case we add the following priors:
+% \begin{itemize}
+% \item The spectrum normalization, to cut degeneracy with the distance modulus $\mu$ that could increase while $M_X$ decrease.
+% \item The spectrum color, that is degenerated with the color law.
+% \item The fact that the color law is fixed at $\lambda_B$ and $\lambda_V$ respectively mean wavelength of the $B$ and $V$-bands
+% \item We fix the dispersion of the $M_X$'s at 14\% because otherwise we have degeneracies with the distance moduli.
+% \item Since we use a $w_0w_a$ cosmology, $\theta_\text{c} = \{ \Omega_m$, $\Omega_k$, $w_0$, $w_a$, $H_0$, $\Omega_bh^2 \}$, we add a Planck prior, extracted from Planck 2015 results(\cite{1502.01589}), which brings us the information on $H_0$ and $\Omega_k$ we wouldn't get with the SNe Ia only.
+% \end{itemize}
 
 
 % ----------------------------------------------------------------------
@@ -433,7 +467,7 @@ J^TC^{-1}J = J^TC^{-1}y
 \end{equation}
 where $C$ is the covariance matrix of the measurements.
 
-Finally we add the calibration covariance matrix $C_s$ (explicited in \ref{sec::calib_uncertainties}) as a prior to our model (as in \ref{sec::model_deg}).
+Finally we add the calibration covariance matrix $C_s$ (explicited in §\ref{subsec::calib_uncertainties}) as a prior to our model (as in §\ref{subsec::model_details}).
 For the moment we have to keep in mind that these value are not fixed, and we are going to make this study for several examples of what would be the calibration accuracy for the LSST SN survey.
 
 Since we want to study the performances of the survey, we do not need to perform a fit.
@@ -453,7 +487,7 @@ We study the performances through the FoM, we have:
 FoM = \frac{1}{\sqrt{det(cov(w_0, w_a))}}
 \end{equation}
 We can then only perform a block inversion of $H$.
-We modify the calibration strategy by changing the $\sigma_{\delta \lambda}$'s and the $\sigma_{\delta zp}$'s in $C_s$ (eq \ref{eq::cov_calib}) which is included in $H$ through $W$.
+We modify the calibration strategy by changing the $\sigma_{\delta \lambda}$'s and the $\sigma_{\delta zp}$'s in $C_s$ (eq \ref{eq::cov_calib}) which impact $H$ through $W$.
 In a first time we vary a same value for all the $\sigma_{\delta zp}$'s while we fix the $\delta \lambda$'s.
 We compute the $FoM$ for each common value of the $\sigma_{\delta zp}$'s, we present this result in Figure \ref{fig:fom_zp}.
 On this figure we an see that a transition in the level of performances occurs around $\sigma_{\delta zp} = 10^{-3}$.
@@ -463,7 +497,7 @@ When doing the same analysis with the filter position parameters we notice that 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=\linewidth]{FoM_20k.pdf}
-  \caption{Evolution of the $FoM$ with the uncertainty on the $\delta zp$'s.}
+  \caption{Evolution of the $FoM$ with the uncertainty on the $\delta zp$'s. $\delta zp$ being the $1_\sigma$ uncertainty on the band zero point, assumed to be a random error uncorrelated from one band to another (see §\ref{subsec::calib_uncertainties}).}
   \label{fig:fom_zp}
 \end{figure}
 

@@ -34,3 +34,5 @@ Lastname,Firstname,Authorname,AuthorType,Affiliation,Contribution,Email
 "Bongard","Sébastien","S. Bongard",Contributor,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","bongard@lpnhe.in2p3.fr"
 "Le Guillou","Laurent","L. Le Guillou",Contributor,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","llg@lpnhe.in2p3.fr"
 "Regnault","Nicolas","N. Regnault",Contributor,"LPNHE, CNRS-IN2P3 and Universit\'{e}s Paris 6 \& 7, 4 place Jussieu, F-75252 Paris Cedex 05, France","","nrl@lpnhe.in2p3.fr"
+"Gris", "Philippe","P. Gris",Contributor,"LPC Clermont","","gris@clermont.in2p3.fr"
+"...","...","...",Contributor,"","",""

@@ -22,8 +22,8 @@ else
 endif
 
 # LATEX environment variables
-export TEXINPUTS:=./texmf/styles/:./tables/:
-export BSTINPUTS:=./texmf/bib/:
+export TEXINPUTS:=./desc-tex/styles/:./tables/:
+export BSTINPUTS:=./desc-tex/bst/:
 
 # LaTeX journal class switcher flags
 # apj=\def\flag{apj}
